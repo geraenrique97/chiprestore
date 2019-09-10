@@ -1,10 +1,10 @@
 <template>
-  <div class="d-flex" 
-  style="height: -webkit-fill-available;">
+  <v-app >
     <sidebar />
-    <nuxt-child />
-    
-  </div>
+    <v-content>
+      <nuxt-child />
+    </v-content>
+  </v-app>
 </template>
 <script>
 import axios from "axios";

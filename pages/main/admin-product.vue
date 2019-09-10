@@ -1,6 +1,6 @@
 <template>
-  <div class="container" 
-  style="overflow: auto;">
+  <v-container fluid
+  >
   
     <nav 
     class="navbar sticky-top navbar-light bg-light align-content-center justify-content-center" 
@@ -32,7 +32,7 @@
                 <v-btn 
                 color="#33691E" 
                 style="color: white"
-                
+                @click="openModal(product)"
                 >Ver mas</v-btn>
             </v-card-actions>
         </v-card>        
@@ -45,7 +45,7 @@
     <ProductModal />
 
   
-  </div>
+  </v-container>
 </template>
 <script>
 import SearchSidebar from "~/components/SearchSidebar.vue";

@@ -1,9 +1,9 @@
 <template>
- <v-navigation-drawer 
+ <v-navigation-drawer app
  class="gradiente side" 
  left 
  permanent
- style="height: auto;"
+ 
  >
     
     <div class="d-flex justify-content-center mt-3 mb-2 elevation-10">

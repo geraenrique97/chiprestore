@@ -1,12 +1,11 @@
 <template>
-  <v-navigation-drawer 
+  <v-navigation-drawer app
   v-model="visible" 
-  height="100%"
   right 
-  absolute 
+  fixed="" 
   color="#f8faf9e6"
   temporary>
-  <v-list light="">
+  <v-list>
     <v-list-item>
       <v-text-field v-model="code" label="Codigo"></v-text-field>
     </v-list-item>
