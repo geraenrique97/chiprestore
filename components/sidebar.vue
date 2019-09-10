@@ -1,5 +1,10 @@
 <template>
- <v-navigation-drawer class="sidebar" left permanent height="-webkit-fill-available">
+ <v-navigation-drawer 
+ class="gradiente side" 
+ left 
+ permanent
+ style="height: auto;"
+ >
     
     <div class="d-flex justify-content-center mt-3 mb-2 elevation-10">
       <v-img :src="require('assets/img/logo.jpg')" max-width="40%" style="border-radius: 50%"></v-img>
@@ -47,9 +52,8 @@ export default {
 </script>
 
 <style scoped>
-  .sidebar {
-    overflow-y: auto;
-    height: -webkit-fill-available;
+  .gradiente {
+    /* overflow-y: auto; */
     background: rgba(51,105,30,1);
     background: -moz-linear-gradient(-45deg, rgba(51,105,30,1) 0%, rgba(51,105,30,1) 40%, rgba(103,201,64,1) 100%);
     background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(51,105,30,1)), color-stop(40%, rgba(51,105,30,1)), color-stop(100%, rgba(103,201,64,1)));
@@ -59,4 +63,7 @@ export default {
     background: linear-gradient(135deg, rgba(51,105,30,1) 0%, rgba(51,105,30,1) 40%, rgba(103,201,64,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33691e', endColorstr='#67c940', GradientType=1 );
   };
+  .side {
+    height: auto;
+  }
 </style>

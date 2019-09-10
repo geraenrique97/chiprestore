@@ -1,5 +1,6 @@
 <template>
-  <div class="container" style="height: -webkit-fill-available;overflow-y:auto">
+  <div class="container" 
+  style="overflow: auto;">
   
     <nav 
     class="navbar sticky-top navbar-light bg-light align-content-center justify-content-center" 
@@ -39,7 +40,7 @@
     </div>
 
     <div class="card-columns">
-        <v-card class="card mt-2" v-for="prenda in prendas" :key="prenda.codigo">
+        <v-card class="card mt-2" v-for="prenda in clothes" :key="prenda.codigo">
             <v-img :src="require(`~/assets/img/${prenda.img[0]}`)" ></v-img>
             <v-card-text>{{prenda.nombre +' '+ prenda.marca +' $' + prenda.pVenta}}</v-card-text>
             <v-card-actions>
@@ -74,7 +75,7 @@ export default {
   data() {
       return {
           toggleSearch: false, 
-          prendas: Object.values(this.$store.state.app.allClothes),
+          prendas: this.$store.state.app.allClothes,
           itemsFiltro: [{id:'Código'}, {id:'Prenda'}, {id:'Marca'},{id: 'Color'}, {id: 'Talle'}]
       }
   },
@@ -90,6 +91,15 @@ export default {
     imprimir(value){
       const evento = this.$emit('toggle-search');
       console.log('hola');
+    }
+  },
+  computed:{
+    clothes() {
+      if (this.$store.state.app.searchResult !== null) {
+        return this.$store.state.app.searchResult
+      } else {
+        return this.$store.state.app.allClothes
+      }
     }
   }
 

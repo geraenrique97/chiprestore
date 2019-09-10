@@ -1,5 +1,6 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex" 
+  style="height: -webkit-fill-available;">
     <sidebar />
     <nuxt-child />
     
