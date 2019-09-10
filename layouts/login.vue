@@ -10,7 +10,8 @@ export default {
 </script>
 <style >
 .gradiente {
-    height: -webkit-fill-available; padding: 0px; margin: 0px;
+    height: -webkit-fill-available; 
+    padding: 0px; margin: 0px;
 
     
     background: rgba(51,105,30,1);

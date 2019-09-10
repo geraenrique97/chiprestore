@@ -16,6 +16,7 @@
     "@nuxtjs/pwa": "^3.0.0-0"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.0.0"
+    "@nuxtjs/vuetify": "^1.0.0",
+    "redux-devtools-extension": "^2.13.8"
   }
 }

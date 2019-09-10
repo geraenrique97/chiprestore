@@ -3,6 +3,8 @@
 </template>
 <script>
 export default {
-  name: 'admin-user'
+  name: 'admin-user',
 }
 </script>
+<style scoped>
+</style>
