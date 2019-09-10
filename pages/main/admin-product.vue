@@ -7,23 +7,8 @@
     >
       <form>
           <v-row justify="end">
-            <!-- <v-col  cols="4">
-              <v-select  
-              label="Filtro" 
-              :items="itemsFiltro"
-              item-value="id"
-              item-text="id"
-              attach
-              :dark="false"
-              ></v-select>
-            </v-col>
-            <v-col cols="6">
-              <v-text-field label="Busqueda"           
-              ></v-text-field>
-            </v-col> -->
             <v-col cols="2">
               <v-icon v-on:click="toggleSearch=!toggleSearch">
-              <!-- <v-icon v-on:click="openSearch"> -->
               search
               </v-icon>
             </v-col>
@@ -40,11 +25,15 @@
     </div>
 
     <div class="card-columns">
-        <v-card class="card mt-2" v-for="prenda in clothes" :key="prenda.codigo">
-            <v-img :src="require(`~/assets/img/${prenda.img[0]}`)" ></v-img>
-            <v-card-text>{{prenda.nombre +' '+ prenda.marca +' $' + prenda.pVenta}}</v-card-text>
+        <v-card class="card mt-2" v-for="product in clothes" :key="product.codigo">
+            <v-img :src="require(`~/assets/img/${product.img[0]}`)" ></v-img>
+            <v-card-text>{{product.nombre +' '+ product.marca +' $' + product.pVenta}}</v-card-text>
             <v-card-actions>
-                <v-btn color="#33691E" style="color: white">Ver mas</v-btn>
+                <v-btn 
+                color="#33691E" 
+                style="color: white"
+                
+                >Ver mas</v-btn>
             </v-card-actions>
         </v-card>        
     </div>
@@ -53,19 +42,22 @@
     <SearchSidebar 
     :open="toggleSearch" 
     v-on:toggleSearch="toggleSearch=!toggleSearch"/>
-    
+    <ProductModal />
 
+  
   </div>
 </template>
 <script>
 import SearchSidebar from "~/components/SearchSidebar.vue";
 import FloatButton from '@/components/FloatButton.vue'
+import ProductModal from "~/components/ProductModal.vue";
 
 export default {
   name: 'products',
   components:{
     FloatButton,
-    SearchSidebar
+    SearchSidebar,
+    ProductModal
   },
   head(){
     return {
@@ -75,13 +67,10 @@ export default {
   data() {
       return {
           toggleSearch: false, 
-          prendas: this.$store.state.app.allClothes,
-          itemsFiltro: [{id:'Código'}, {id:'Prenda'}, {id:'Marca'},{id: 'Color'}, {id: 'Talle'}]
+          itemsFiltro: [{id:'Código'}, {id:'Prenda'}, {id:'Marca'},{id: 'Color'}, {id: 'Talle'}],
+           dialog: false,
+          hideme: false
       }
-  },
-  created: function() {
-      // this.$store.dispatch('app/setClothes',Object.values(PRENDAS));
-
   },
   methods:{
     openSearch(){
@@ -91,6 +80,10 @@ export default {
     imprimir(value){
       const evento = this.$emit('toggle-search');
       console.log('hola');
+    },
+    openModal(product) {
+      this.$store.commit('app/selectProduct', product);
+      this.$store.commit('app/toggleModal');
     }
   },
   computed:{

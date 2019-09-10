@@ -6,6 +6,7 @@ export const state = () => ({
   selected: null,
   searchResult: null,
   searchParams: null,
+  openedModal: false,
 })
 
 export const mutations = {
@@ -19,6 +20,12 @@ export const mutations = {
 
   setSearchResult(state, result) {
     state.searchResult = result
+  },
+  toggleModal(state) {
+    state.openedModal = !state.openedModal
+  },
+  selectProduct(state, product) {
+    state.selected = product
   }
 
 };
@@ -98,65 +105,6 @@ export const actions = {
   }
 }
 
-// searchPrendas(filtro) {
-//   console.log('entra a buscar');
-//   const result: Array<object> = [];
-// // Declaracion de las coincidencias a verificar
-//   for (const prenda of Object.values(this.prendas)) {
-// // Por cada palabra de la categoria prenda del filtro busca coincidencias en el objeto prenda, devuelve true en al menos una coincidencia
-//     result.push(prenda);
-//     let matchCodigo = true;
-//     let matchNombre = true;
-//     let matchMarca = true;
-//     let matchColor = true;
-//     if (filtro.codigo !== undefined && filtro.codigo !== '' && filtro.codigo !== prenda.codigo) {
-//       matchCodigo = false;
-//     }
-//     if (filtro.prenda !== undefined && filtro.prenda !== '' && filtro.prenda !== prenda.nombre) {
-//       const arrMatchNombre = filtro.prenda.split(' ');
-//       matchNombre = false;
-//       // tslint:disable-next-line: forin
-//       for (const str of arrMatchNombre) {
-//         const exp = new RegExp(str);
-//         if (exp.test(prenda.nombre)) {
-//           matchNombre = true;
-//           break;
-//         }
-//       }
-//     }
-//     if (filtro.marca !== undefined && filtro.marca !== '' && filtro.marca !== prenda.marca) {
-//       matchMarca = false;
-//     }
-//     if (filtro.color !== undefined && filtro.color !== '' && filtro.color !== prenda.color) {
-//       matchColor = false;
-//     }
-//     if (!(matchCodigo && matchNombre && matchMarca && matchColor)) {
-//       result.pop();
-//     }
-//   }
-//   return result;
-// }
-
-// getCategorias() {
-//   const categorias = {prenda: [], marca: [], color: [], talle: []};
-//   Object.values(this.getPrendasEj()).forEach(
-//     (value: any) => {
-//       value.nombre.split(' ').forEach(str => {
-//         if (!categorias.prenda.includes(str)) {
-//           categorias.prenda.push(str);
-//         }
-//       });
-//       if (!categorias.marca.includes(value.marca)) {
-//         categorias.marca.push(value.marca);
-//       }
-//       if (!categorias.color.includes(value.color)) {
-//         categorias.color.push(value.color);
-//       }
-//     }
-//   );
-//   categorias.talle = ['xs', 's', 'm', 'l', 'xl'];
-//   return categorias;
-// }
 
 export const PRENDAS = {
   prenda1: {
