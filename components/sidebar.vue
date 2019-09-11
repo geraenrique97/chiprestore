@@ -7,8 +7,12 @@
   v-model="auxShow"
  >
     
-    <div class="d-flex justify-content-center mt-3 mb-2 elevation-10">
-      <v-img :src="require('assets/img/logo.jpg')" max-width="40%" style="border-radius: 50%"></v-img>
+    <div class="d-flex justify-content-center mt-3 mb-2">
+      <v-img 
+      :src="require('assets/img/logo.jpg')" 
+      max-width="40%" 
+      class="elevation-10"
+      style="border-radius: 50%"></v-img>
 
     </div>
     <v-list :rounded="true" :dark="true" :shaped="true">
@@ -47,7 +51,7 @@ export default {
         {title: 'empleados', icon: 'people'},
       ],
       user: 'Federico Samaniego',
-      auxShow: this.showMenu
+      auxShow: undefined,
     }
   },
   computed:{
@@ -65,6 +69,10 @@ export default {
       if (val) this.auxShow = true;
     }
   },
+  created() {
+    this.auxShow = this.showMenu
+    console.log(this.auxShow,'-', this.smallDevice)
+  }
 }
 </script>
 

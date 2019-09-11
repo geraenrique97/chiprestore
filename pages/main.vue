@@ -6,29 +6,42 @@
     </v-content>
     <v-app-bar app class="topbar">
       <v-row>
-        <v-col class="justify-content-end">
-        <v-icon @click.stop="showMenu">apps</v-icon>
+        <v-col class="d-flex justify-content-between">
+          <div class="d-flex">
+            <v-icon 
+            class="appsIcon mr-2" 
+            @click.stop="showMenu"
+            >apps</v-icon>
+            <v-toolbar-title>Chipre Store</v-toolbar-title>
+          </div>
+          <v-icon 
+          @click="toggleSearch=!toggleSearch"
+          >search</v-icon>
         </v-col>
       </v-row>
     </v-app-bar>
-    
+    <SearchSidebar 
+    :open="toggleSearch" 
+    @toggleSearch="toggleSearch=!toggleSearch"/>
   </v-app>
 </template>
 <script>
 import axios from "axios";
 import sidebar from '~/components/sidebar.vue'
 import { async } from 'q';
-
+import SearchSidebar from "~/components/SearchSidebar.vue";
 export default {
   layout: 'admin-user',
   components: {
-    sidebar
+    sidebar,
+    SearchSidebar
   },
   fetch({store}) {
     store.dispatch('app/getClothes');
   },
   data(){
     return {
+      toggleSearch: false, 
     }
   },
 
@@ -39,7 +52,11 @@ export default {
   methods:{
     showMenu(){
       this.$store.commit('app/toggleMenu');
-    }
+    },
+    openSearch(){
+      console.log('tendria que emitir');
+      this.$emit('toggleSearch');
+    },
   },
   transitions:'fade-in',
   computed: {
@@ -63,12 +80,10 @@ export default {
 }
 </script>
 <style>
-  button:focus {
-    outline: none
-  }
+
   @media(min-width: 960px) {
-    .topbar {
-      display: none;
+    .appsIcon {
+      visibility: hidden;
     }
   }
 

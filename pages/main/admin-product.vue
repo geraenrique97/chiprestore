@@ -2,21 +2,6 @@
   <v-container fluid
   >
   
-    <nav 
-    class="navbar sticky-top navbar-light bg-light align-content-center justify-content-center" 
-    >
-      <form>
-          <v-row justify="end">
-            <v-col cols="2">
-              <v-icon v-on:click="toggleSearch=!toggleSearch">
-              search
-              </v-icon>
-            </v-col>
-          </v-row>
-          
-      </form>
-    </nav>
-
     <!-- Resultados de la busqueda o todos -->
     <div class="row">
         <div class="col">
@@ -39,16 +24,13 @@
     </div>
 
     <FloatButton />
-    <SearchSidebar 
-    :open="toggleSearch" 
-    v-on:toggleSearch="toggleSearch=!toggleSearch"/>
+    
     <ProductModal />
 
   
   </v-container>
 </template>
 <script>
-import SearchSidebar from "~/components/SearchSidebar.vue";
 import FloatButton from '@/components/FloatButton.vue'
 import ProductModal from "~/components/ProductModal.vue";
 
@@ -56,7 +38,6 @@ export default {
   name: 'products',
   components:{
     FloatButton,
-    SearchSidebar,
     ProductModal
   },
   head(){
@@ -66,17 +47,12 @@ export default {
   },
   data() {
       return {
-          toggleSearch: false, 
           itemsFiltro: [{id:'Código'}, {id:'Prenda'}, {id:'Marca'},{id: 'Color'}, {id: 'Talle'}],
            dialog: false,
           hideme: false
       }
   },
   methods:{
-    openSearch(){
-      console.log('tendria que emitir');
-      this.$emit('toggleSearch');
-    },
     imprimir(value){
       const evento = this.$emit('toggle-search');
       console.log('hola');
@@ -105,21 +81,5 @@ export default {
         column-count: 4!important;
     }
  }
- .navbar {
-    padding:0!important; 
-    padding-left:10px; 
-    padding-right: 10px;
-    padding-top: 5px; 
-    top: 5px; 
-    z-index: 1!important; 
-    height: 4rem; 
-    width: -webkit-fill-available; 
-    /* justify-content: space-between; */
-    background-color: darkgray;
-    opacity: 0.90;
-    border-radius: 5px;
-}
-  /* .navbar a {
-  align-items: center;
-  } */
+
 </style>
