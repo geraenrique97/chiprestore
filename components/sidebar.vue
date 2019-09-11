@@ -71,7 +71,6 @@ export default {
   },
   created() {
     this.auxShow = this.showMenu
-    console.log(this.auxShow,'-', this.smallDevice)
   }
 }
 </script>

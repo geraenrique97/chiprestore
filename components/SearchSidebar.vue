@@ -44,9 +44,6 @@ export default {
     }
   },
   methods:{
-    imprimirInSearch(){
-      console.log('llega a search');
-    },
     searchClothes() {
       let params = {
         code: this.code,
@@ -63,7 +60,6 @@ export default {
       this.visible = this.open;
     },
     visible(){
-      console.log(this.visible);
       if (!this.visible) this.$emit('toggleSearch', this.visible);
     }
   }

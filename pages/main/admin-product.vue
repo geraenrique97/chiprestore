@@ -10,9 +10,9 @@
     </div>
 
     <div class="card-columns">
-        <v-card class="card mt-2" v-for="product in clothes" :key="product.codigo">
+        <v-card class="card mt-2" v-for="product in clothes" :key="product.code">
             <v-img :src="require(`~/assets/img/${product.img[0]}`)" ></v-img>
-            <v-card-text>{{product.nombre +' '+ product.marca +' $' + product.pVenta}}</v-card-text>
+            <v-card-text>{{product.clothe +' '+ product.brand +' $' + product.sellPrice}}</v-card-text>
             <v-card-actions>
                 <v-btn 
                 color="#33691E" 
@@ -55,7 +55,6 @@ export default {
   methods:{
     imprimir(value){
       const evento = this.$emit('toggle-search');
-      console.log('hola');
     },
     openModal(product) {
       this.$store.commit('app/selectProduct', product);

@@ -34,6 +34,14 @@ export const mutations = {
   },
   toggleMenu(state) {
     state.showMenu = !state.showMenu
+  },
+  updateProduct(state, payload) {
+    for (const key in state.allClothes) {
+      if (payload.code == state.allClothes[key].code) {
+        state.allClothes[key] = payload;
+        break
+      }
+    };
   }
 
   
@@ -52,17 +60,17 @@ export const getters = {
 
 export const actions = {
 
-  getClothes(state) {
+  getClothes(store) {
     axios.get('https://chiprestore19.firebaseio.com/prendas.json')
     .then( resp => {
-      // state.commit('addClothes',Object.values(resp.data));
-      // state.commit('addClothes', Object.values(PRENDAS))
+      // store.commit('addClothes',Object.values(resp.data));
+      // store.commit('addClothes', Object.values(PRENDAS))
       console.log(resp.data)
     });
   },
-  searchClothes(state, params) {
-    state.commit('setSearchParams', params);
-    state.dispatch('filterClothes');
+  searchClothes(store, params) {
+    store.commit('setSearchParams', params);
+    store.dispatch('filterClothes');
 
   },
   filterClothes(store) {
@@ -76,18 +84,18 @@ export const actions = {
       let matchColor = true;
       if ( store.state.searchParams.code !== undefined
         && store.state.searchParams.code.length > 0
-        && store.state.searchParams.code !== clothe.codigo) {
+        && store.state.searchParams.code !== clothe.code) {
           matchCode = false;
       }
       if (store.state.searchParams.clothe !== undefined
         && store.state.searchParams.clothe !== '' 
-        && store.state.searchParams.clothe !== clothe.nombre) {
+        && store.state.searchParams.clothe !== clothe.clothe) {
           const arrMatchName = store.state.searchParams.clothe.split(' ');
           //False until find one coincidence, if not find then remove last element in result
           matchName = false;
           for (const str of arrMatchName) {
             const exp = new RegExp(str);
-            if (exp.test(clothe.nombre)) {
+            if (exp.test(clothe.clothe)) {
               matchName = true;
               break;
             }
@@ -95,7 +103,7 @@ export const actions = {
       }
       if (store.state.searchParams.brand !== undefined
         && store.state.searchParams.brand !== '' 
-        && store.state.searchParams.brand !== clothe.marca) {
+        && store.state.searchParams.brand !== clothe.brand) {
         matchBrand = false;
       }
       if (store.state.searchParams.color !== undefined
@@ -112,299 +120,307 @@ export const actions = {
     // return store.state.searchResult
     
   
+  },
+
+  saveProductChanges(store, payload) {
+    // axios.post('url', payload)
+    //   .then(
+    //     // Should return all clothes and update the state
+    //   );
+    store.commit('updateProduct', payload)    
   }
 }
 
 
 export const PRENDAS = {
   prenda1: {
-    nombre: 'remera',
-    marca: 'abercombrie & fitch ',
+    clothe: 'remera',
+    brand: 'abercombrie & fitch ',
     color: 'azul',
 
-    codigo: '1',
+    code: '1',
     img: ['img1.png'],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'L', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'L', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
     prenda2: {
-    nombre: 'camisa',
-    marca: 'polo',
+    clothe: 'camisa',
+    brand: 'polo',
     color: 'salmon',
 
-    codigo: '2',
+    code: '2',
     img: [`img2.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda3: {
-    nombre: 'remera',
-    marca: 'tommy hilfiger',
+    clothe: 'remera',
+    brand: 'tommy hilfiger',
     color: 'blanca',
 
-    codigo: '3',
+    code: '3',
     img: [`img3.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda4: {
-    nombre: 'sueter',
-    marca: 'abercombrie & fitch',
+    clothe: 'sueter',
+    brand: 'abercombrie & fitch',
     color: 'naranja',
 
-    codigo: '4',
+    code: '4',
     img: [`img4.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda5  : {
-    nombre: 'remera',
-    marca: 'abercombrie & fitch',
+    clothe: 'remera',
+    brand: 'abercombrie & fitch',
     color: 'roja',
 
-    codigo: '5',
+    code: '5',
     img: [`img5.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda6  : {
-    nombre: 'buzo femenino',
-    marca: 'adidas',
+    clothe: 'buzo femenino',
+    brand: 'adidas',
     color: 'amarillo',
 
-    codigo: '6',
+    code: '6',
     img: [`img6.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda7  : {
-    nombre: 'sueter',
-    marca: 'abercombrie & fitch',
+    clothe: 'sueter',
+    brand: 'abercombrie & fitch',
     color: 'celeste',
 
-    codigo: '7',
+    code: '7',
     img: [`img7.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda8  : {
-    nombre: 'remera bordado rojo',
-    marca: 'abercombrie & fitch',
+    clothe: 'remera bordado rojo',
+    brand: 'abercombrie & fitch',
     color: 'gris',
 
-    codigo: '8',
+    code: '8',
     img: [`img8.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda9  : {
-    nombre: 'remera a rayas',
-    marca: 'lacoste',
+    clothe: 'remera a rayas',
+    brand: 'lacoste',
     color: 'gris blanco rojo negro',
 
-    codigo: '9',
+    code: '9',
     img: [`img9.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda10  : {
-    nombre: 'remera bordada',
-    marca: 'abercombrie & fitch',
+    clothe: 'remera bordada',
+    brand: 'abercombrie & fitch',
     color: 'rosa',
 
-    codigo: '10',
+    code: '10',
     img: [`img10.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda11  : {
-    nombre: 'remera',
-    marca: 'tommy hilgifer',
+    clothe: 'remera',
+    brand: 'tommy hilgifer',
     color: 'roja',
 
-    codigo: '11',
+    code: '11',
     img: [`img11.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda12  : {
-    nombre: 'short verano',
-    marca: 'polo',
+    clothe: 'short verano',
+    brand: 'polo',
     color: 'rosado',
 
-    codigo: '12',
+    code: '12',
     img: [`img12.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda13  : {
-    nombre: 'remera',
-    marca: 'polo',
+    clothe: 'remera',
+    brand: 'polo',
     color: 'azul',
 
-    codigo: '13',
+    code: '13',
     img: [`img13.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda14  : {
-    nombre: 'camisa pintadas',
-    marca: 'tommy hilfiger',
+    clothe: 'camisa pintadas',
+    brand: 'tommy hilfiger',
     color: 'blanca',
 
-    codigo: '14',
+    code: '14',
     img: [`img14.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda15  : {
-    nombre: 'camisa jeans',
-    marca: 'polo',
+    clothe: 'camisa jeans',
+    brand: 'polo',
     color: 'azul',
 
-    codigo: '15',
+    code: '15',
     img: [`img15.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 'm', cant: 2},
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 'm', quantity: 2},
     ]
   },
   prenda16  : {
-    nombre: 'short verano',
-    marca: 'lacoste',
+    clothe: 'short verano',
+    brand: 'lacoste',
     color: 'negro',
 
-    codigo: '16',
+    code: '16',
     img: [`img16.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 'm', cant: 2},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 'm', quantity: 2},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda17  : {
-    nombre: 'remera lisa',
-    marca: 'polo',
+    clothe: 'remera lisa',
+    brand: 'polo',
     color: 'negro',
 
-    codigo: '17',
+    code: '17',
     img: [`img17.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda18  : {
-    nombre: 'short bermuda',
-    marca: 'penguin',
+    clothe: 'short bermuda',
+    brand: 'penguin',
     color: 'marron',
 
-    codigo: '18',
+    code: '18',
     img: [`img18.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 'xxl', cant: 1}
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 'xxl', quantity: 1}
     ]
   },
   prenda19  : {
-    nombre: 'remera estampa indio',
-    marca: 'abercombrie & fitch',
+    clothe: 'remera estampa indio',
+    brand: 'abercombrie & fitch',
     color: 'gris',
 
-    codigo: '19',
+    code: '19',
     img: [`img19.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 'm', cant: 2},
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 'm', quantity: 2},
     ]
   },
   prenda20  : {
-    nombre: 'remera estampada',
-    marca: 'abercombrie & fitch',
+    clothe: 'remera estampada',
+    brand: 'abercombrie & fitch',
     color: 'azul',
 
-    codigo: '20',
+    code: '20',
     img: [`img20.png`],
-    pCosto: 300.00,
-    pVenta: 500.00,
-    disp: [
-      {talle: 's', cant: 3},
-      {talle: 'm', cant: 2},
+    buyPrice: 300.00,
+    sellPrice: 500.00,
+    stock: [
+      {size: 's', quantity: 3},
+      {size: 'm', quantity: 2},
     ]
   },
 };
