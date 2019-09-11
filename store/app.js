@@ -7,6 +7,8 @@ export const state = () => ({
   searchResult: null,
   searchParams: null,
   openedModal: false,
+  smallDevice: null,
+  showMenu: true
 })
 
 export const mutations = {
@@ -26,7 +28,15 @@ export const mutations = {
   },
   selectProduct(state, product) {
     state.selected = product
+  },
+  setDevice(state, isSmall) {
+    state.smallDevice = isSmall
+  },
+  toggleMenu(state) {
+    state.showMenu = !state.showMenu
   }
+
+  
 
 };
 

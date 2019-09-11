@@ -1,9 +1,10 @@
 <template>
  <v-navigation-drawer app
- class="gradiente side" 
- left 
- permanent
- 
+  class="gradiente side" 
+  left 
+  :permanent="!smallDevice"
+  :temporary="smallDevice"
+  v-model="auxShow"
  >
     
     <div class="d-flex justify-content-center mt-3 mb-2 elevation-10">
@@ -45,7 +46,23 @@ export default {
         {title: 'movimientos', icon: 'local_shipping'},
         {title: 'empleados', icon: 'people'},
       ],
-      user: 'Federico Samaniego'
+      user: 'Federico Samaniego',
+      auxShow: this.showMenu
+    }
+  },
+  computed:{
+    smallDevice() {
+      if (this.$store.state.app.smallDevice) return true
+      else return false;
+    },
+    showMenu() { return this.$store.state.app.showMenu }
+  },
+  watch: {
+    auxShow(val) {
+      if (!val) this.$store.commit('app/toggleMenu');
+    },
+    showMenu(val) {
+      if (val) this.auxShow = true;
     }
   },
 }
