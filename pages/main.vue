@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
     <sidebar />
     <v-content>
       <nuxt-child />

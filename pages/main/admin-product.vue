@@ -26,19 +26,21 @@
     <FloatButton />
     
     <ProductModal />
-
+    <ProductSheet />
   
   </v-container>
 </template>
 <script>
 import FloatButton from '@/components/FloatButton.vue'
-import ProductModal from "~/components/ProductModal.vue";
+import ProductModal from "~/components/ProductModal.vue"
+import ProductSheet from "~/components/ProductSheet.vue";
 
 export default {
   name: 'products',
   components:{
     FloatButton,
-    ProductModal
+    ProductModal,
+    ProductSheet
   },
   head(){
     return {

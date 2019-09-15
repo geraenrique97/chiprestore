@@ -8,14 +8,16 @@ export const state = () => ({
   searchParams: null,
   openedModal: false,
   smallDevice: null,
-  showMenu: true
+  showMenu: true,
+  showProductRegister: false
 })
 
 export const mutations = {
+  // Add all clothes to state
   addClothes(state, payload) {
     state.allClothes = payload;
   },
-
+  // The params will be used as search filter
   setSearchParams(state, params) {
     state.searchParams = params;
   },
@@ -23,18 +25,22 @@ export const mutations = {
   setSearchResult(state, result) {
     state.searchResult = result
   },
+  //Product details modal
   toggleModal(state) {
     state.openedModal = !state.openedModal
   },
+  //Set the state with a selected product
   selectProduct(state, product) {
     state.selected = product
   },
+  //Set the prop according to viewport size, if xs or sm then true
   setDevice(state, isSmall) {
     state.smallDevice = isSmall
   },
   toggleMenu(state) {
     state.showMenu = !state.showMenu
   },
+  // Update details of selected product
   updateProduct(state, payload) {
     for (const key in state.allClothes) {
       if (payload.code == state.allClothes[key].code) {
@@ -42,6 +48,9 @@ export const mutations = {
         break
       }
     };
+  },
+  toggleProductRegisterSheet(state) {
+    state.showProductRegister = !state.showProductRegister
   }
 
   

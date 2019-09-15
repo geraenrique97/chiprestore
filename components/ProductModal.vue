@@ -6,11 +6,9 @@
       light
       :max-width="modalWidth"
     >
-      <div 
-      
-      class="d-block d-md-flex"
-      style="overflow: hidden">
-        <v-carousel
+      <!-- <div 
+      style="overflow: hidden"> -->
+        <!-- <v-carousel
           :cycle="true"
           delimiter-icon="remove"
           height="500px"
@@ -22,122 +20,141 @@
             reverse-transition="fade-transition"
             transition="fade-transition"
           ></v-carousel-item>
-        </v-carousel>
+        </v-carousel> -->
 
-        <div style="overflow-y: auto; height: 500px; overflow-x: hidden">
-          <v-card>
-
-            <v-card-text>
-              <v-row>
-                <v-col cols="6">
-                  <v-text-field v-model="form.clothe" label="Prenda"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="6">
-                  <v-text-field v-model="form.code" label="Codigo"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="6">
-                  <v-text-field v-model="form.category" label="Categoria"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="6">
-                  <v-text-field v-model="form.description" label="Descripcion"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="6">
-                  <v-text-field v-model="form.brand" label="Marca"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="6">
-                  <v-text-field v-model="form.color" label="Color"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-
-              <v-row>
-                <v-col cols="6">
-                  <v-text-field v-model="form.buyPrice" label="Precio de compra"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="6">
-                    <v-text-field v-model="form.sellPrice" label="Precio de venta"
-                    ></v-text-field>
-                </v-col>
-              </v-row>
-
-              <v-row>
-                <v-col cols="6">
-                  <v-btn 
-                    @click="openSheet = !openSheet"
-                    color="green"
-                    >Ver stock</v-btn>
-                </v-col>
-              </v-row>
-
-              
-            </v-card-text>
-
-
-              <v-bottom-sheet inset v-model="openSheet">
-                <v-sheet class="text-center">
-                  <v-row justify="center">
-                    <v-col cols="3">
-                      <v-text-field v-model="newStock.size" label="Talle"></v-text-field>
-                    </v-col>
-                    <v-col cols="3">
-                      <v-text-field v-model="newStock.quantity" label="Cantidad"></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row justify="center">
-                    <v-col cols="8">
-                      <v-simple-table>
-                        <thead>
-                          <tr>
-                            <th>Talle</th>
-                            <th>Cantidad</th>
-                            <th>
-                              <v-icon>delete</v-icon>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="(item,i) in form.stock" :key="i">
-                            <td>{{ item.size }}</td>
-                            <td>{{ item.quantity }}</td>
-                            <td><v-checkbox></v-checkbox></td>
-                          </tr>
-                        </tbody>
-                      </v-simple-table>
-                    </v-col>
-                  </v-row>
-                  <v-row justify="center" >
-                    <v-btn class="mb-2 mr-2"
-                      @click="openSheet = false"
-                      >Cerrar</v-btn>
-                    <v-btn class="mb-2"
-                      @click="addStock"
-                      >Guardar</v-btn>
-                  </v-row>
-
-                </v-sheet>
-              </v-bottom-sheet>
+        <div 
+          
+          style=" overflow-x: hidden">
+          <v-card class="d-block d-md-flex">
             
+            <v-carousel
+              :cycle="true"
+              delimiter-icon="remove"
+              height="500px"
+              >
+              <v-carousel-item
+                v-for="(item,i) in form.img"
+                :key="i"
+                :src="require(`~/assets/img/${item}`)"
+                reverse-transition="fade-transition"
+                transition="fade-transition"
+              ></v-carousel-item>
+            </v-carousel>
 
+            <div :style="{height: [smallVierport? '':'500px'], overflowY: 'auto'}">
+              <v-card-text>
+                <v-container>
 
-            <v-card-actions>
-              <v-row justify="center">
-                <v-btn @click="closeModal">Cancelar</v-btn>
-                <v-btn @click="saveChange">Guardar</v-btn>
-              </v-row>
-            </v-card-actions>
+                  <v-row>
+                    <v-col cols="6">
+                      <v-text-field v-model="form.clothe" label="Prenda"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field v-model="form.code" label="Codigo"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6">
+                      <v-text-field v-model="form.category" label="Categoria"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field v-model="form.description" label="Descripcion"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6">
+                      <v-text-field v-model="form.brand" label="Marca"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-text-field v-model="form.color" label="Color"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row>
+                    <v-col cols="6">
+                      <v-text-field v-model="form.buyPrice" label="Precio de compra"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-text-field v-model="form.sellPrice" label="Precio de venta"
+                        ></v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row>
+                    <v-col cols="6">
+                      <v-btn 
+                        @click="openSheet = !openSheet"
+                        color="green"
+                        >Ver stock</v-btn>
+                    </v-col>
+                  </v-row>
+
+                </v-container>
+              </v-card-text>
+
+                <v-bottom-sheet inset v-model="openSheet">
+                  <v-sheet class="text-center">
+                    <v-row justify="center">
+                      <v-col cols="3">
+                        <v-text-field v-model="newStock.size" label="Talle"></v-text-field>
+                      </v-col>
+                      <v-col cols="3">
+                        <v-text-field v-model="newStock.quantity" label="Cantidad"></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row justify="center">
+                      <v-col cols="8">
+                        <v-simple-table>
+                          <thead>
+                            <tr>
+                              <th>Talle</th>
+                              <th>Cantidad</th>
+                              <th>
+                                <v-icon>delete</v-icon>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="(item,i) in form.stock" :key="i">
+                              <td>{{ item.size }}</td>
+                              <td>{{ item.quantity }}</td>
+                              <td><v-checkbox></v-checkbox></td>
+                            </tr>
+                          </tbody>
+                        </v-simple-table>
+                      </v-col>
+                    </v-row>
+                    <v-row justify="center" >
+                      <v-btn class="mb-2 mr-2"
+                        @click="openSheet = false"
+                        >Cerrar</v-btn>
+                      <v-btn class="mb-2"
+                        @click="addStock"
+                        >Guardar</v-btn>
+                    </v-row>
+
+                  </v-sheet>
+                </v-bottom-sheet>
+              
+              <v-card-actions>
+                <v-container>
+                  <v-row justify="center">
+                    <v-btn @click="closeModal">Cancelar</v-btn>
+                    <v-btn @click="saveChange">Guardar</v-btn>
+                  </v-row>
+                </v-container>
+              </v-card-actions>
+            </div>
           </v-card>
         </div>
-      </div>
+      <!-- </div> -->
     </v-dialog>
   </v-row>
 </template>

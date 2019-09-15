@@ -1,16 +1,22 @@
 <template>
    <v-btn
+      @click="toggleProductRegisterSheet"
       class="addBtn"
       fixed
       fab
       bottom
       right
     >
-      <v-icon>add</v-icon>
+      <v-icon> add</v-icon>
     </v-btn>
 </template>
 <script>
 export default {
+  methods: {
+    toggleProductRegisterSheet() {
+      this.$store.commit('app/toggleProductRegisterSheet');
+    }
+  }
 }
 </script>
 <style >

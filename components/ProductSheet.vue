@@ -1,0 +1,213 @@
+<template>
+   <v-row justify="center">
+    <v-dialog v-model="openSheet" fullscreen hide-overlay transition="dialog-bottom-transition">
+
+      <v-card>
+        <v-toolbar dark color="primary" class="sticky-top">
+          <v-btn icon dark @click="openSheet = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Nuevo Producto</v-toolbar-title>
+          <div class="flex-grow-1"></div>
+          <v-toolbar-items>
+            <v-btn dark text @click="openSheet = false">Guardar</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+      
+      <div class="d-block d-md-flex align-center p-1">
+        <v-row :style="{width:smallViewport? '':'100%'}">
+          <v-carousel delimiter-icon="remove"
+            >
+            <v-carousel-item
+              v-for="(item,i) in fileURLs"
+              :key="i"
+              :src="item"
+              reverse-transition="fade-transition"
+              transition="fade-transition"
+            >
+              <div class="d-flex justify-center">
+                <v-icon style="     font-size: 30px;
+                        margin-top: 5px;
+                        opacity: 1;
+                        color: darkred;"
+                        @click="removeImg(i)"> clear</v-icon>
+              </div>
+            </v-carousel-item>
+            <v-carousel-item  
+              reverse-transition="fade-transition"
+              transition="fade-transition">
+              <div class="d-flex justify-content-center" style="height: 100%;">
+                <img 
+                @click="$refs['fileInput'].click()"
+                style="align-self: center"
+                :src="require('~/assets/img/add-icon.png')" alt="">
+              </div>
+            </v-carousel-item>
+          </v-carousel>
+          
+          
+        </v-row>
+
+        <input @change="chooseImg($event)" ref="fileInput" type="file" hidden capture/>
+        
+        <v-card-text :style=" smallViewport? '' : 'height: 590px; overflow-y: auto;'">
+          <v-container >
+
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="form.clothe" label="Prenda"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="form.category" label="Categoria"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row>
+
+              <v-col cols="12">
+                <v-text-field v-model="form.description" label="Descripcion"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="form.brand" label="Marca"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="form.color" label="Color"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="form.buyPrice" label="Precio de compra"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                  <v-text-field v-model="form.sellPrice" label="Precio de venta"
+                  ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row class="d-block d-md-flex">
+              <v-col cols="12" sm="12" md="6">
+                <v-row justify="center">
+                  <v-col cols="6">
+                    <v-text-field v-model="newStock.size" label="Talle"></v-text-field>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-text-field v-model="newStock.quantity" label="Cantidad"></v-text-field>
+                  </v-col>
+                
+                </v-row>
+
+                <v-row justify="center">
+                  <v-col cols="6">
+                    <v-btn @click="addStock">Agregar</v-btn>
+                  </v-col>
+                </v-row>
+              </v-col>
+
+              <v-row justify="center">
+                <v-col cols="12">
+                  <v-simple-table>
+                    <thead>
+                      <tr>
+                        <th>Talle</th>
+                        <th>Cantidad</th>
+                        <th>
+                          <v-icon>delete</v-icon>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item,i) in form.stock" :key="i">
+                        <td>{{ item.size }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td><v-checkbox></v-checkbox></td>
+                      </tr>
+                    </tbody>
+                  </v-simple-table>
+                </v-col>
+              </v-row>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        </div>
+      </v-card>
+    </v-dialog>
+  </v-row>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      form: {
+        clothe: null,
+        code: null,
+        category: null,
+        description: null,
+        brand: null,
+        color: null,
+        buyPrice: null,
+        sellPrice: null,
+        stock:[],
+        img:[]
+      },
+      openSheet: false,
+      newStock: {
+        size: null,
+        quantity: null
+      },
+      fileURLs: []
+    }
+  },
+  computed: {
+    stateSheet() {
+      return this.$store.state.app.showProductRegister
+    },
+    smallViewport() {
+      if (this.$store.state.app.smallDevice) return true
+      else false;
+    },
+  },
+  watch: {
+    stateSheet(val) {
+      if (this.stateSheet) this.openSheet = true;
+    },
+    openSheet(val) {
+      if (!this.openSheet) this.$store.commit('app/toggleProductRegisterSheet');
+    }
+  },
+  methods: {
+    addStock() {
+      const newStock = {...this.newStock};
+      this.form.stock.push(newStock);
+    },
+    removeStock() {
+      return true;
+    },
+    chooseImg(event) {
+      const img = event.target.files[0]
+      const fileReader = new FileReader();
+      fileReader.addEventListener('load', () => {
+        this.fileURLs.push(fileReader.result);
+        this.form.img.push(img);
+      });
+      fileReader.readAsDataURL(img);
+
+
+    },
+    uploadImg() {
+    },
+    removeImg(index) {
+      this.fileURLs.splice(index, 1);
+      this.form.img.splice(index, 1);
+    }
+  }
+}
+</script>
