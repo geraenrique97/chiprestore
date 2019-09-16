@@ -4,17 +4,18 @@
     <v-content>
       <nuxt-child />
     </v-content>
-    <v-app-bar app class="topbar">
+    <v-app-bar app :color="viewportSize?'primary':'white'" class="topbar">
       <v-row>
         <v-col class="d-flex justify-content-between">
           <div class="d-flex">
             <v-icon 
-            class="appsIcon mr-2" 
+            class="appsIcon mr-2 colorWhite" 
             @click.stop="showMenu"
             >apps</v-icon>
-            <v-toolbar-title>Chipre Store</v-toolbar-title>
+            <v-toolbar-title class="colorWhite">Chipre Store</v-toolbar-title>
           </div>
           <v-icon 
+          class="colorWhite"
           @click="toggleSearch=!toggleSearch"
           >search</v-icon>
         </v-col>
@@ -84,8 +85,14 @@ export default {
   @media(min-width: 960px) {
     .appsIcon {
       visibility: hidden;
+    };
+    .colorWhite {
+      color:black!important;
     }
   }
+  .colorWhite {
+      color:white;
+    }
 
 
 </style>

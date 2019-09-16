@@ -3,7 +3,7 @@
     <v-dialog v-model="openSheet" fullscreen hide-overlay transition="dialog-bottom-transition">
 
       <v-card>
-        <v-toolbar dark color="primary" class="sticky-top">
+        <v-toolbar dark color="secondary" class="sticky-top">
           <v-btn icon dark @click="openSheet = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -23,8 +23,7 @@
               :key="i"
               :src="item"
               reverse-transition="fade-transition"
-              transition="fade-transition"
-            >
+              transition="fade-transition">
               <div class="d-flex justify-center">
                 <v-icon style="     font-size: 30px;
                         margin-top: 5px;
@@ -43,7 +42,12 @@
                 :src="require('~/assets/img/add-icon.png')" alt="">
               </div>
             </v-carousel-item>
+
+            
           </v-carousel>
+          <!-- <button class="buttonAddImg" @click="$refs['fileInput'].click()">
+              <v-icon>add</v-icon>  
+          </button> -->
           
           
         </v-row>
@@ -211,3 +215,27 @@ export default {
   }
 }
 </script>
+<style>
+.buttonAddImg {
+    position: fixed;
+    margin-top: -35px;
+    /* opacity: 0.7; */
+    background-color: white;
+    color: darkgreen;
+    font-size: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    height: 35px;
+    width: 65px;
+   
+    box-shadow: none;
+    
+};
+@media(max-width: 450px) {
+   .buttonAddImg {
+      position: sticky
+   }
+}
+</style>
