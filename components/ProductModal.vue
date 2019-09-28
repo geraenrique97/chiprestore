@@ -14,7 +14,7 @@
           height="500px"
           >
           <v-carousel-item
-            v-for="(item,i) in form.img"
+            v-for="(item,i) in formURLs"
             :key="i"
             :src="require(`~/assets/img/${item}`)"
             reverse-transition="fade-transition"
@@ -33,7 +33,7 @@
               height="500px"
               >
               <v-carousel-item
-                v-for="(item,i) in form.img"
+                v-for="(item,i) in form.imgURLs"
                 :key="i"
                 :src="require(`~/assets/img/${item}`)"
                 reverse-transition="fade-transition"
@@ -173,7 +173,7 @@ export default {
         buyPrice: null,
         sellPrice: null,
         stock:[],
-        img:[]
+        imgURLs:[]
       },
       openSheet: false,
       newStock: {
@@ -217,7 +217,7 @@ export default {
       this.$store.commit('app/toggleModal');
     },
     saveChange(){
-      this.$store.dispatch('app/saveProductChanges', this.form);
+      this.$store.dispatch('app/updateProduct', this.form);
       this.closeModal();
     },
     addStock() {

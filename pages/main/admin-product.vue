@@ -11,7 +11,9 @@
 
     <div class="card-columns">
         <v-card class="card mt-2" v-for="product in clothes" :key="product.code">
-            <v-img :src="require(`~/assets/img/${product.img[0]}`)" ></v-img>
+            <v-img 
+            :src="product.imgURLs[0]!==undefined ?require(`~/assets/img/${product.imgURLs[0]}`):''" 
+            ></v-img>
             <v-card-text>{{product.clothe +' '+ product.brand +' $' + product.sellPrice}}</v-card-text>
             <v-card-actions>
                 <v-btn 
@@ -27,6 +29,7 @@
     
     <ProductModal />
     <ProductSheet />
+    <Alert />
   
   </v-container>
 </template>
@@ -34,13 +37,15 @@
 import FloatButton from '@/components/FloatButton.vue'
 import ProductModal from "~/components/ProductModal.vue"
 import ProductSheet from "~/components/ProductSheet.vue";
+import Alert from "~/components/Alert.vue";
 
 export default {
   name: 'products',
   components:{
     FloatButton,
     ProductModal,
-    ProductSheet
+    ProductSheet,
+    Alert
   },
   head(){
     return {

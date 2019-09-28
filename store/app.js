@@ -1,4 +1,5 @@
 import axios from "axios";
+import { async } from "q";
 
 export const state = () => ({
   allClothes: PRENDAS,
@@ -9,7 +10,12 @@ export const state = () => ({
   openedModal: false,
   smallDevice: null,
   showMenu: true,
-  showProductRegister: false
+  showProductRegister: false,
+  alert: {
+    visible: false,
+    type: null,
+    msg: null
+  }
 })
 
 export const mutations = {
@@ -51,9 +57,16 @@ export const mutations = {
   },
   toggleProductRegisterSheet(state) {
     state.showProductRegister = !state.showProductRegister
+  },
+  addNewClothe(state, payload)  {
+    state.allClothes = { ... state.allClothes, payload}
+  },
+  setAlert(state, payload) {
+    state.alert = {...payload}
+  },
+  clearAlert(state) {
+    state.alert.visible = false
   }
-
-  
 
 };
 
@@ -131,13 +144,53 @@ export const actions = {
   
   },
 
-  saveProductChanges(store, payload) {
+  updateProduct(store, payload) {
     // axios.post('url', payload)
     //   .then(
     //     // Should return all clothes and update the state
     //   );
     store.commit('updateProduct', payload)    
-  }
+  },
+
+  createProduct(store, payload) {
+    const url = "https://chiprestore19.firebaseio.com/prendas.json";
+    
+    // let resolved
+    // try {
+    //   resolved = await axios.post(url, payload);
+    //   store.commit('addNewClothe', payload);
+    //   return resolved.data
+    // } catch (err) {
+    //   console.log(err);
+    //   return new Error(err)
+    // }
+    store.commit('clearAlert');
+    
+    return axios.post(url, payload)
+      .then( resp => {
+        payload.code = resp.data.name;
+        store.commit('addNewClothe', payload);
+        const alert = {
+          visible: true,
+          type: 'info',
+          msg: 'Guardado con éxito. Código: '+ resp.data.name
+        };
+        store.commit('setAlert', alert);
+        return resp.data
+      })
+      .catch( err => {
+        const alert = {
+          visible: true,
+          type: 'error',
+          msg: 'Problema al cargar el producto. Reintentar.'
+        };
+        store.commit('setAlert', alert);
+        console.log(' reject in store');
+        return Promise.reject(new Error(alert.msg))
+      })
+
+  },
+
 }
 
 
@@ -148,7 +201,7 @@ export const PRENDAS = {
     color: 'azul',
 
     code: '1',
-    img: ['img1.png'],
+    imgURLs: ['img1.png'],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -163,7 +216,7 @@ export const PRENDAS = {
     color: 'salmon',
 
     code: '2',
-    img: [`img2.png`],
+    imgURLs: [`img2.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -178,7 +231,7 @@ export const PRENDAS = {
     color: 'blanca',
 
     code: '3',
-    img: [`img3.png`],
+    imgURLs: [`img3.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -193,7 +246,7 @@ export const PRENDAS = {
     color: 'naranja',
 
     code: '4',
-    img: [`img4.png`],
+    imgURLs: [`img4.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -208,7 +261,7 @@ export const PRENDAS = {
     color: 'roja',
 
     code: '5',
-    img: [`img5.png`],
+    imgURLs: [`img5.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -223,7 +276,7 @@ export const PRENDAS = {
     color: 'amarillo',
 
     code: '6',
-    img: [`img6.png`],
+    imgURLs: [`img6.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -238,7 +291,7 @@ export const PRENDAS = {
     color: 'celeste',
 
     code: '7',
-    img: [`img7.png`],
+    imgURLs: [`img7.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -253,7 +306,7 @@ export const PRENDAS = {
     color: 'gris',
 
     code: '8',
-    img: [`img8.png`],
+    imgURLs: [`img8.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -268,7 +321,7 @@ export const PRENDAS = {
     color: 'gris blanco rojo negro',
 
     code: '9',
-    img: [`img9.png`],
+    imgURLs: [`img9.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -283,7 +336,7 @@ export const PRENDAS = {
     color: 'rosa',
 
     code: '10',
-    img: [`img10.png`],
+    imgURLs: [`img10.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -298,7 +351,7 @@ export const PRENDAS = {
     color: 'roja',
 
     code: '11',
-    img: [`img11.png`],
+    imgURLs: [`img11.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -313,7 +366,7 @@ export const PRENDAS = {
     color: 'rosado',
 
     code: '12',
-    img: [`img12.png`],
+    imgURLs: [`img12.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -328,7 +381,7 @@ export const PRENDAS = {
     color: 'azul',
 
     code: '13',
-    img: [`img13.png`],
+    imgURLs: [`img13.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -343,7 +396,7 @@ export const PRENDAS = {
     color: 'blanca',
 
     code: '14',
-    img: [`img14.png`],
+    imgURLs: [`img14.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -357,7 +410,7 @@ export const PRENDAS = {
     color: 'azul',
 
     code: '15',
-    img: [`img15.png`],
+    imgURLs: [`img15.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -370,7 +423,7 @@ export const PRENDAS = {
     color: 'negro',
 
     code: '16',
-    img: [`img16.png`],
+    imgURLs: [`img16.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -384,7 +437,7 @@ export const PRENDAS = {
     color: 'negro',
 
     code: '17',
-    img: [`img17.png`],
+    imgURLs: [`img17.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -398,7 +451,7 @@ export const PRENDAS = {
     color: 'marron',
 
     code: '18',
-    img: [`img18.png`],
+    imgURLs: [`img18.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -411,7 +464,7 @@ export const PRENDAS = {
     color: 'gris',
 
     code: '19',
-    img: [`img19.png`],
+    imgURLs: [`img19.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
@@ -424,7 +477,7 @@ export const PRENDAS = {
     color: 'azul',
 
     code: '20',
-    img: [`img20.png`],
+    imgURLs: [`img20.png`],
     buyPrice: 300.00,
     sellPrice: 500.00,
     stock: [
