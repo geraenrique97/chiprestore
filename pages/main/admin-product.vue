@@ -1,9 +1,7 @@
 <template>
-  <v-container fluid
-  >
-  
+  <v-container fluid v-if="!loading">
     <!-- Resultados de la busqueda o todos -->
-    <div class="row">
+    <div class="row" v-if="showedInfo">
         <div class="col">
             <p style="font-size: 12px; color: darkgray; margin: 0px">Mostrando añadidos recientemente</p>
         </div>
@@ -56,7 +54,6 @@ export default {
       return {
           itemsFiltro: [{id:'Código'}, {id:'Prenda'}, {id:'Marca'},{id: 'Color'}, {id: 'Talle'}],
            dialog: false,
-          hideme: false
       }
   },
   methods:{
@@ -75,7 +72,22 @@ export default {
       } else {
         return this.$store.state.app.allClothes
       }
+    },
+    showedInfo() {
+      if (this.$store.state.app.searchResult !== null) {
+        return false
+      } else {
+        return true
+      }
+    },
+    loading() {
+      if (this.$store.state.app.loading) {
+        return true
+      } else {
+        return false
+      }
     }
+    
   }
 
 }

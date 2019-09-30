@@ -1,5 +1,5 @@
 import axios from "axios";
-import { async } from "q";
+import firebase from "firebase/app";
 
 export const state = () => ({
   allClothes: PRENDAS,
@@ -15,7 +15,8 @@ export const state = () => ({
     visible: false,
     type: null,
     msg: null
-  }
+  },
+  loading: false
 })
 
 export const mutations = {
@@ -66,34 +67,48 @@ export const mutations = {
   },
   clearAlert(state) {
     state.alert.visible = false
+  },
+  setUser(state, payload) {
+    state.user = payload
+  },
+  clearUser(state, payload) {
+    state.user = payload
+  },
+  setLoading(state, payload) {
+    state.loading = payload
   }
-
 };
 
 export const getters = {
   doubleCount (state) {
     return state.count * 2
   },
-  // searchClothesById(state, id) {
-  //   return state.allClothes.filter( clothe => clothe.id == id);
-  // }
+  isAuthenticated(state) {
+    if (state.user != null && state.user != undefined) {
+      return true
+    } else {
+      return false
+    }
+  }
 
 };
 
 export const actions = {
 
-  getClothes(store) {
+  getClothes({commit}) {
+    commit('setLoading', true);
     axios.get('https://chiprestore19.firebaseio.com/prendas.json')
     .then( resp => {
       // store.commit('addClothes',Object.values(resp.data));
       // store.commit('addClothes', Object.values(PRENDAS))
-      console.log(resp.data)
+      console.log('getClothes');
+      commit('setLoading', false);
+
     });
   },
   searchClothes(store, params) {
     store.commit('setSearchParams', params);
     store.dispatch('filterClothes');
-
   },
   filterClothes(store) {
     const result = [];
@@ -155,16 +170,8 @@ export const actions = {
   createProduct(store, payload) {
     const url = "https://chiprestore19.firebaseio.com/prendas.json";
     
-    // let resolved
-    // try {
-    //   resolved = await axios.post(url, payload);
-    //   store.commit('addNewClothe', payload);
-    //   return resolved.data
-    // } catch (err) {
-    //   console.log(err);
-    //   return new Error(err)
-    // }
     store.commit('clearAlert');
+    store.commit('setLoading', true)
     
     return axios.post(url, payload)
       .then( resp => {
@@ -175,7 +182,9 @@ export const actions = {
           type: 'info',
           msg: 'Guardado con éxito. Código: '+ resp.data.name
         };
+        store.commit('setLoading', false);
         store.commit('setAlert', alert);
+
         return resp.data
       })
       .catch( err => {
@@ -184,12 +193,25 @@ export const actions = {
           type: 'error',
           msg: 'Problema al cargar el producto. Reintentar.'
         };
+        store.commit('setLoading', false);
         store.commit('setAlert', alert);
         console.log(' reject in store');
         return Promise.reject(new Error(alert.msg))
       })
 
   },
+  signIn({commit}, payload) {
+    firebase.auth().signInWithEmailAndPassword(payload.user, payload.password)
+      .then( user => {
+        commit('setUser', user.user.uid);
+      })
+      .catch(error =>{
+        console.log(error);
+        });
+  },
+  signUp({commit}, payload){
+    return true
+  }
 
 }
 

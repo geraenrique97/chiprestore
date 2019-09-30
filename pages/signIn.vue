@@ -39,28 +39,47 @@
 
 <script>
 import axios from 'axios'
+import firebase from 'firebase'
 export default {
   name: 'login',
-  layout: 'login',
+  layout: 'loginLayout',
   data () {
     return {
       invalid: false,
       visible: false,
-      user:'',
-      password: undefined
+      user: null,
+      password: null
 
     }
   },
+
+  computed: {
+    isAuthenticated()  {
+      return this.$store.state.app.user
+    },
+    validForm() {
+      if (this.user != null && this.user != '' 
+      && this.password != null && this.password != '') {
+        return true
+      }
+    }
+  },
+
+  watch:{
+    isAuthenticated(val) {
+      console.log(val);
+      if (val) {
+        this.$router.push({path:'/main/admin-product'})
+      }
+    }
+  },
+
   methods:{
     login() {
-      this.invalid=!this.invalid;
-      // return axios.post('', { user: this.user, password: this.password})
-      return axios.get('https://chiprestore19.firebaseio.com/prendas.json')
-        .then((resp) => {
-          console.log(resp);
-          this.$router.push({path:'/main'});
-          })
-        .catch(error => alert(error));
+      if (this.validForm) {
+        this.$store.dispatch('app/signIn', {user: this.user, password: this.password})
+      }
+      
       
     }
   }

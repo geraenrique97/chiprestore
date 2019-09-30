@@ -1,5 +1,6 @@
 <template>
   <v-app>
+
     <sidebar />
     <v-content>
       <nuxt-child />
@@ -20,6 +21,15 @@
           >search</v-icon>
         </v-col>
       </v-row>
+      <v-progress-linear
+      :active="loading"
+      indeterminate
+      absolute
+      top
+      color="blue"
+      style="z-index: 1024"
+      ></v-progress-linear>
+
     </v-app-bar>
     <SearchSidebar 
     :open="toggleSearch" 
@@ -70,13 +80,24 @@ export default {
       default:
         return false;
       }
+    },
+    isAuthenticated() {
+      return this.$router.state.app.user
+    },
+    loading() {
+      return this.$store.state.app.loading
     }
   },
   watch:{
     viewportSize(val) {
       console.log(this.viewportSize);
       this.$store.commit('app/setDevice', val);
-    }
+    },
+    // isAuthenticated(val) {
+    //   if (val == null || val == undefined) {
+    //     this.$router.push({path: '/login-page'})
+    //   }
+    // }
   },
 }
 </script>

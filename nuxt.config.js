@@ -34,7 +34,8 @@ export default {
   */
   plugins: [
     '~plugins/filters.js',
-    '~plugins/vuetify.js'
+    '~plugins/vuetify.js',
+    '~plugins/firebase.js'
   ],
   /*
   ** Nuxt.js dev-modules

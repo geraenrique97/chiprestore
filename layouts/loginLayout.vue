@@ -1,5 +1,5 @@
 <template>
-  <div  class="d-flex justify-content-center gradiente" >
+  <div class="d-flex justify-content-center gradiente" >
     <nuxt />
   </div>
 </template>
