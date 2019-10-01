@@ -41,6 +41,7 @@ import axios from "axios";
 import sidebar from '~/components/sidebar.vue'
 import { async } from 'q';
 import SearchSidebar from "~/components/SearchSidebar.vue";
+import firebase from "firebase/app";
 export default {
   layout: 'admin-user',
   components: {
@@ -82,7 +83,7 @@ export default {
       }
     },
     isAuthenticated() {
-      return this.$router.state.app.user
+      return this.$store.state.app.user !== null
     },
     loading() {
       return this.$store.state.app.loading
@@ -90,15 +91,21 @@ export default {
   },
   watch:{
     viewportSize(val) {
-      console.log(this.viewportSize);
       this.$store.commit('app/setDevice', val);
     },
-    // isAuthenticated(val) {
-    //   if (val == null || val == undefined) {
-    //     this.$router.push({path: '/login-page'})
-    //   }
-    // }
+    isAuthenticated(val) {
+      if (!this.isAuthenticated) {
+        this.$router.push({path: '/signIn'})
+      }
+    }
   },
+  created() {
+  //Should be a user controller middleware before that it render
+    if (!this.isAuthenticated) {
+        this.$router.push({path: '/signIn'})
+      }
+
+  }
 }
 </script>
 <style>

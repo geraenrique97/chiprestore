@@ -28,9 +28,9 @@
 
     <!-- <v-divider></v-divider> -->
     <v-subheader>{{user}}</v-subheader>
-    <v-list-item link class="d-flex">
+    <v-list-item link class="d-flex" @click="logout">
       <v-icon class="mr-4">exit_to_app</v-icon>
-      <!-- <v-list-item-title>Salir</v-list-item-title> -->
+     
       Cerrar sesion
     </v-list-item>
   </v-navigation-drawer>
@@ -67,6 +67,11 @@ export default {
     },
     showMenu(val) {
       if (val) this.auxShow = true;
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('app/logout')
     }
   },
   created() {

@@ -34,7 +34,6 @@ export default {
   },
   watch: {
     visible(val) {
-      console.log('state value change');
       if (val) this.value = true;
     },
     value(val) {

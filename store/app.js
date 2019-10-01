@@ -1,5 +1,5 @@
-import axios from "axios";
-import firebase from "firebase/app";
+// import axios from "axios";
+import firebase from "../plugins/firebase";
 
 export const state = () => ({
   allClothes: PRENDAS,
@@ -97,7 +97,7 @@ export const actions = {
 
   getClothes({commit}) {
     commit('setLoading', true);
-    axios.get('https://chiprestore19.firebaseio.com/products.json')
+    firebase.database().ref('products').once('value')
     .then( resp => {
       // store.commit('addClothes',Object.values(resp.data));
       // store.commit('addClothes', Object.values(PRENDAS))
@@ -208,6 +208,13 @@ export const actions = {
       .catch(error =>{
         console.log(error);
         });
+  },
+  logout({commit}) {
+    firebase.auth().signOut()
+      .then(res => {
+        commit('setUser', null);
+      })
+      .catch(err => console.log(err))
   },
   signUp({commit}, payload){
     return true
