@@ -22,9 +22,7 @@
           ></v-carousel-item>
         </v-carousel> -->
 
-        <div 
-          
-          style=" overflow-x: hidden">
+        <div style=" overflow-x: hidden">
           <v-card class="d-block d-md-flex">
             
             <v-carousel
@@ -227,8 +225,6 @@ export default {
     removeStock() {
       return true;
     }
-  },
-
-
+  }
 }
 </script>

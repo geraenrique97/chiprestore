@@ -1,23 +1,17 @@
 <template>
-<div class="d-flex justify-center">
-  <v-snackbar 
-   
-    v-model="value"
-    bottom
-    :color="type"
-    :timeout="type == 'error'? 2000: 0"
-    
-    >
-    <!-- <v-icon></v-icon> -->
+<v-snackbar 
+  v-model="value"
+  bottom
+  :color="type"
+  :timeout="type == 'error'? 2000: 0">
     {{msg}}
     <v-btn 
-    v-if="type == 'info'" 
-    @click="value = false"
-    color="black"
-    text
+      v-if="type == 'info'" 
+      @click="value = false"
+      color="black"
+      text
     >Aceptar</v-btn>
-  </v-snackbar>
-    </div>
+</v-snackbar>
 </template>
 <script>
 export default {
@@ -36,15 +30,16 @@ export default {
     },
     msg() {
       return this.$store.state.app.alert.msg
-    }
+    },
   },
   watch: {
     visible(val) {
-      if (val) this.value = val;
+      console.log('state value change');
+      if (val) this.value = true;
     },
     value(val) {
       if (!val) this.$store.commit('app/clearAlert');
     },
-  },
+  }, 
 }
 </script>

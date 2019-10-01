@@ -1,26 +1,28 @@
 <template>
-  <v-container fluid v-if="!loading">
-    <!-- Resultados de la busqueda o todos -->
-    <div class="row" v-if="showedInfo">
-        <div class="col">
-            <p style="font-size: 12px; color: darkgray; margin: 0px">Mostrando añadidos recientemente</p>
-        </div>
-    </div>
+  <v-container fluid >
+    <div v-if="!loading">
+      <!-- Resultados de la busqueda o todos -->
+      <div class="row" v-if="showedInfo">
+          <div class="col">
+              <p style="font-size: 12px; color: darkgray; margin: 0px">Mostrando añadidos recientemente</p>
+          </div>
+      </div>
 
-    <div class="card-columns">
-        <v-card class="card mt-2" v-for="product in clothes" :key="product.code">
-            <v-img 
-            :src="product.imgURLs[0]!==undefined ?require(`~/assets/img/${product.imgURLs[0]}`):''" 
-            ></v-img>
-            <v-card-text>{{product.clothe +' '+ product.brand +' $' + product.sellPrice}}</v-card-text>
-            <v-card-actions>
-                <v-btn 
-                color="#33691E" 
-                style="color: white"
-                @click="openModal(product)"
-                >Ver mas</v-btn>
-            </v-card-actions>
-        </v-card>        
+      <div class="card-columns">
+          <v-card class="card mt-2" v-for="product in clothes" :key="product.code">
+              <v-img 
+              :src="product.imgURLs[0]!==undefined ?require(`~/assets/img/${product.imgURLs[0]}`):''" 
+              ></v-img>
+              <v-card-text>{{product.clothe +' '+ product.brand +' $' + product.sellPrice}}</v-card-text>
+              <v-card-actions>
+                  <v-btn 
+                  color="#33691E" 
+                  style="color: white"
+                  @click="openModal(product)"
+                  >Ver mas</v-btn>
+              </v-card-actions>
+          </v-card>        
+      </div>
     </div>
 
     <FloatButton />

@@ -4,8 +4,7 @@
       v-model="openSheet" 
       fullscreen 
       hide-overlay 
-      transition="dialog-bottom-transition"
-      persistent>
+      transition="dialog-bottom-transition">
 
       <v-card>
         <v-toolbar dark color="secondary" class="sticky-top">

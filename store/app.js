@@ -97,7 +97,7 @@ export const actions = {
 
   getClothes({commit}) {
     commit('setLoading', true);
-    axios.get('https://chiprestore19.firebaseio.com/prendas.json')
+    axios.get('https://chiprestore19.firebaseio.com/products.json')
     .then( resp => {
       // store.commit('addClothes',Object.values(resp.data));
       // store.commit('addClothes', Object.values(PRENDAS))
@@ -168,19 +168,19 @@ export const actions = {
   },
 
   createProduct(store, payload) {
-    const url = "https://chiprestore19.firebaseio.com/prendas.json";
     
     store.commit('clearAlert');
-    store.commit('setLoading', true)
-    
-    return axios.post(url, payload)
+    store.commit('setLoading', true);
+    // const url = "https://chiprestore19.firebaseio.com/products.json";
+    // return axios.post(url, payload)
+    return firebase.database().ref('products').push(payload)
       .then( resp => {
-        payload.code = resp.data.name;
+        payload.code = resp.key;
         store.commit('addNewClothe', payload);
         const alert = {
           visible: true,
           type: 'info',
-          msg: 'Guardado con éxito. Código: '+ resp.data.name
+          msg: 'Guardado con éxito. Código: '+ resp.key
         };
         store.commit('setLoading', false);
         store.commit('setAlert', alert);
