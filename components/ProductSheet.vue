@@ -174,14 +174,14 @@ export default {
         buyPrice: null,
         sellPrice: null,
         stock:[],
-        imgURLs:[]
+        imgURLs:[],
+        imgFiles: [],
       },
       openSheet: false,
       newStock: {
         size: null,
         quantity: null
       },
-      files: [],
       resultSnackbar: null,
       showSnackbar: true
     }
@@ -213,18 +213,18 @@ export default {
     },
     chooseImg(event) {
       const img = event.target.files[0]
-      const fileReader = new FileReader();
-      fileReader.addEventListener('load', () => {
-        this.form.imgURLs.push(fileReader.result);
-      });
-      fileReader.readAsDataURL(img);
-      this.files.push(img);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.form.imgURLs.push(reader.result);
+      }
+      reader.readAsDataURL(img);
+      this.form.imgFiles.push(img);
     },
     uploadImg() {
     },
     removeImg(index) {
       this.form.imgURLs.splice(index, 1);
-      this.files.splice(index, 1);
+      this.form.imgFiles.splice(index, 1);
     },
     createProduct() {
       this.$store.dispatch('app/createProduct',{ ...this.form })

@@ -171,23 +171,47 @@ export const actions = {
     
     store.commit('clearAlert');
     store.commit('setLoading', true);
-    // const url = "https://chiprestore19.firebaseio.com/products.json";
-    // return axios.post(url, payload)
-    return firebase.database().ref('products').push(payload)
+    let product = {...payload};
+    
+    delete product.imgFiles;
+    let files = [...payload.imgFiles];
+    let key;
+    return firebase.database().ref('products').push(product)
       .then( resp => {
-        payload.code = resp.key;
-        store.commit('addNewClothe', payload);
+        key = resp.key;
+        product.code = resp.key;
+        return key
+      })
+
+      .then( key => {
+        const fileName = files[0].name;
+        const extension = fileName.slice(fileName.lastIndexOf('.'));
+        return firebase.storage().ref('products/'+key+'.'+extension).put(files[0])
+      })
+
+      .then(fileData => {
+        return fileData.ref.getDownloadURL()
+      })      
+
+      .then(url => {
+        console.log('in promisse: ',url);
+        product.imgURLs[0] = url;
+        return firebase.database().ref('products').child(key).update({imgURLs: product.imgURLs})
+      })
+        
+      .then( res => {
+        store.commit('addNewClothe', product);
         const alert = {
           visible: true,
           type: 'info',
-          msg: 'Guardado con éxito. Código: '+ resp.key
+          msg: 'Guardado con éxito. Código: '+ key
         };
         store.commit('setLoading', false);
         store.commit('setAlert', alert);
-
-        return resp.data
       })
+
       .catch( err => {
+        console.log(err);
         const alert = {
           visible: true,
           type: 'error',
@@ -195,26 +219,43 @@ export const actions = {
         };
         store.commit('setLoading', false);
         store.commit('setAlert', alert);
-        console.log(' reject in store');
         return Promise.reject(new Error(alert.msg))
       })
 
   },
   signIn({commit}, payload) {
+    commit('setLoading', true);
     firebase.auth().signInWithEmailAndPassword(payload.user, payload.password)
       .then( user => {
         commit('setUser', user.user.uid);
+        commit('setLoading', false);
       })
       .catch(error =>{
-        console.log(error);
-        });
+        const alert = {
+          visible: true,
+          type: 'error',
+          msg: error.message
+        };
+        store.commit('setLoading', false);
+        store.commit('setAlert', alert);
+      });
   },
   logout({commit}) {
-    firebase.auth().signOut()
+    return firebase.auth().signOut()
       .then(res => {
         commit('setUser', null);
+        return Promise.resolve(true)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        const alert = {
+          visible: true,
+          type: 'error',
+          msg: error.message
+        };
+        store.commit('setLoading', false);
+        store.commit('setAlert', alert);
+        return Promise.reject(false)
+      })
   },
   signUp({commit}, payload){
     return true

@@ -33,7 +33,7 @@
               <v-carousel-item
                 v-for="(item,i) in form.imgURLs"
                 :key="i"
-                :src="require(`~/assets/img/${item}`)"
+                :src="item.includes('http')? item:require(`~/assets/img/${item}`)"
                 reverse-transition="fade-transition"
                 transition="fade-transition"
               ></v-carousel-item>

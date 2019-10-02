@@ -1,6 +1,14 @@
 <template>
   <v-app>
-
+    <v-progress-linear
+    :active="loading"
+    indeterminate
+    fixed
+    top
+    color="#018786"
+    background-opacity="0"
+    style="z-index: 1024"
+    ></v-progress-linear>
     <sidebar />
     <v-content>
       <nuxt-child />
@@ -21,14 +29,7 @@
           >search</v-icon>
         </v-col>
       </v-row>
-      <v-progress-linear
-      :active="loading"
-      indeterminate
-      absolute
-      top
-      color="blue"
-      style="z-index: 1024"
-      ></v-progress-linear>
+     
 
     </v-app-bar>
     <SearchSidebar 
@@ -46,7 +47,7 @@ export default {
   layout: 'admin-user',
   components: {
     sidebar,
-    SearchSidebar
+    SearchSidebar,
   },
   fetch({store}) {
     store.dispatch('app/getClothes');
@@ -94,16 +95,16 @@ export default {
       this.$store.commit('app/setDevice', val);
     },
     isAuthenticated(val) {
-      if (!this.isAuthenticated) {
-        this.$router.push({path: '/signIn'})
-      }
+      // if (!this.isAuthenticated) {
+      //   this.$router.push({path: '/signIn'})
+      // }
     }
   },
   created() {
   //Should be a user controller middleware before that it render
-    if (!this.isAuthenticated) {
-        this.$router.push({path: '/signIn'})
-      }
+    // if (!this.isAuthenticated) {
+    //     this.$router.push({path: '/signIn'})
+    //   }
 
   }
 }
@@ -121,6 +122,9 @@ export default {
   .colorWhite {
       color:white;
     }
+  button:focus {
+    outline: none;
+  }
 
 
 </style>

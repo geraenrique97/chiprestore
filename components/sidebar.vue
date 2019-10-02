@@ -72,6 +72,10 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('app/logout')
+        .then(res => {
+          console.log(res);
+          if (res) this.$router.push('/signIn');
+        })
     }
   },
   created() {
