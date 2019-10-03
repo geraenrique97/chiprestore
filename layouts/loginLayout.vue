@@ -1,11 +1,25 @@
 <template>
   <div class="d-flex justify-content-center gradiente" >
+     <v-progress-linear
+    :active="loading"
+    indeterminate
+    fixed
+    top
+    color="#018786"
+    background-opacity="0"
+    style="z-index: 1024"
+    ></v-progress-linear>
     <nuxt />
   </div>
 </template>
 <script>
 export default {
-  name: 'login'
+  name: 'login',
+  computed: {
+    loading() {
+      return this.$store.state.app.loading
+    }
+  }
 }
 </script>
 <style >

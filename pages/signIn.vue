@@ -1,4 +1,5 @@
 <template>
+ 
   <div class="container d-flex justify-content-center align-self-center">
     <div class="jumbotron container-login">
       <div class="d-flex justify-content-center">
@@ -62,7 +63,8 @@ export default {
       && this.password != null && this.password != '') {
         return true
       }
-    }
+    },
+    
   },
 
   watch:{
