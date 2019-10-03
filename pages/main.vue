@@ -45,6 +45,7 @@ import SearchSidebar from "~/components/SearchSidebar.vue";
 import firebase from "firebase/app";
 export default {
   layout: 'admin-user',
+  
   components: {
     sidebar,
     SearchSidebar,
@@ -59,7 +60,7 @@ export default {
   },
 
   created: function () {
-    this.$router.push({path: '/main/admin-product'});
+    // this.$router.push({path: '/main/adminProduct'});
     this.$store.commit('app/setDevice', this.viewportSize);
   },
   methods:{

@@ -71,7 +71,7 @@ export default {
     isAuthenticated(val) {
       console.log(val);
       if (val) {
-        this.$router.push({path:'/main/admin-product'})
+        this.$router.push({path:'/main/adminProduct'})
       }
     }
   },

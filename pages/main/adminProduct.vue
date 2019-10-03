@@ -42,6 +42,7 @@ import Alert from "~/components/Alert.vue";
 
 export default {
   name: 'products',
+  middleware: 'userAuth',
   components:{
     FloatButton,
     ProductModal,
