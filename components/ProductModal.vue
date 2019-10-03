@@ -2,10 +2,8 @@
   <v-row justify="center">
     <v-dialog
       v-model="opened"
-      persistent
       light
-      :max-width="modalWidth"
-    >
+      :max-width="modalWidth">
       <!-- <div 
       style="overflow: hidden"> -->
         <!-- <v-carousel
@@ -86,74 +84,92 @@
                   </v-row>
 
                   <v-row>
-                    <v-col cols="6">
+                    <v-col >
                       <v-btn 
                         @click="openSheet = !openSheet"
                         color="green"
+                        text
+                        block
+                        style="color: white"
                         >Ver stock</v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-row justify="center">
+                    <v-col cols="6">
+                      <v-btn 
+                      outlined 
+                      block
+                      color="primary" 
+                      @click="closeModal">Cancelar</v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-btn 
+                      block
+                      color="primary"
+                      @click="saveChange">Guardar</v-btn>
                     </v-col>
                   </v-row>
 
                 </v-container>
               </v-card-text>
 
-                <v-bottom-sheet inset v-model="openSheet">
-                  <v-sheet class="text-center">
-                    <v-row justify="center">
-                      <v-col cols="3">
-                        <v-text-field v-model="newStock.size" label="Talle"></v-text-field>
-                      </v-col>
-                      <v-col cols="3">
-                        <v-text-field v-model="newStock.quantity" label="Cantidad"></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row justify="center">
-                      <v-col cols="8">
-                        <v-simple-table>
-                          <thead>
-                            <tr>
-                              <th>Talle</th>
-                              <th>Cantidad</th>
-                              <th>
-                                <v-icon>delete</v-icon>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="(item,i) in form.stock" :key="i">
-                              <td>{{ item.size }}</td>
-                              <td>{{ item.quantity }}</td>
-                              <td><v-checkbox></v-checkbox></td>
-                            </tr>
-                          </tbody>
-                        </v-simple-table>
-                      </v-col>
-                    </v-row>
-                    <v-row justify="center" >
-                      <v-btn class="mb-2 mr-2"
-                        @click="openSheet = false"
-                        >Cerrar</v-btn>
-                      <v-btn class="mb-2"
-                        @click="addStock"
-                        >Guardar</v-btn>
-                    </v-row>
-
-                  </v-sheet>
-                </v-bottom-sheet>
-              
-              <v-card-actions>
-                <v-container>
-                  <v-row justify="center">
-                    <v-btn @click="closeModal">Cancelar</v-btn>
-                    <v-btn @click="saveChange">Guardar</v-btn>
-                  </v-row>
-                </v-container>
-              </v-card-actions>
             </div>
           </v-card>
         </div>
       <!-- </div> -->
     </v-dialog>
+    <v-bottom-sheet inset v-model="openSheet">
+      <v-sheet class="text-center">
+        <v-row justify="center">
+          <v-col cols="3">
+            <v-text-field v-model="newStock.size" label="Talle"></v-text-field>
+          </v-col>
+          <v-col cols="3">
+            <v-text-field v-model="newStock.quantity" label="Cantidad"></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-simple-table>
+              <thead>
+                <tr>
+                  <th>Talle</th>
+                  <th>Cantidad</th>
+                  <th>
+                    <v-icon>delete</v-icon>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,i) in form.stock" :key="i">
+                  <td>{{ item.size }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td><v-checkbox></v-checkbox></td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </v-col>
+        </v-row>
+        <v-row justify="center" >
+          <!-- <v-btn 
+          class="mb-2 mr-2"
+          outlined
+          color="secondary"
+          @click="openSheet = false"
+          >Cancelar</v-btn> -->
+          <v-col cols="6">
+            <v-btn 
+            color="primary"
+            block
+            rounded
+            class="mb-2"
+            @click="addStock"
+            >Actualizar</v-btn>
+          </v-col>
+        </v-row>
+
+      </v-sheet>
+    </v-bottom-sheet>
   </v-row>
 </template>
 <script>

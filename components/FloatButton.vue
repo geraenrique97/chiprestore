@@ -1,11 +1,11 @@
 <template>
    <v-btn
       @click="toggleProductRegisterSheet"
-      class="addBtn"
       fixed
       fab
       bottom
       right
+      color="secondary"
     >
       <v-icon> add</v-icon>
     </v-btn>

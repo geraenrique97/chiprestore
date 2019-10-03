@@ -22,7 +22,12 @@
       <v-text-field v-model="size" label="Talle"></v-text-field>
     </v-list-item>
     <v-list-item class="justify-content-center">
-      <v-btn color="#A1887F" style="color: white" v-on:click="searchClothes">Buscar</v-btn>
+      <v-btn 
+      block
+      elevation="8"
+      color="secondary" 
+      style="color: white" 
+      @click="searchClothes">Buscar</v-btn>
     </v-list-item>
   </v-list>
 

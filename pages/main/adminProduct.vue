@@ -17,8 +17,11 @@
               <v-card-text>{{product.clothe +' '+ product.brand +' $' + product.sellPrice}}</v-card-text>
               <v-card-actions>
                   <v-btn 
-                  color="#33691E" 
+                  block
+                  text
+                  color="primary" 
                   style="color: white"
+                  retain-focus-on-click
                   @click="openModal(product)"
                   >Ver mas</v-btn>
               </v-card-actions>
@@ -102,6 +105,9 @@ export default {
     .card-columns {
         column-count: 4!important;
     }
- }
+ };
+button:focus{
+  outline: none!important
+}
 
 </style>

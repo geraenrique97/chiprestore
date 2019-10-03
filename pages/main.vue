@@ -93,9 +93,5 @@ export default {
   .colorWhite {
       color:white;
     }
-  button:focus {
-    outline: none;
-  }
-
 
 </style>

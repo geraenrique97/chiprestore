@@ -116,7 +116,10 @@
 
                   <v-row justify="center">
                     <v-col cols="6">
-                      <v-btn @click="addStock">Agregar</v-btn>
+                      <v-btn 
+                      outlined
+                      color="secondary"
+                      @click="addStock">Agregar</v-btn>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -152,16 +155,11 @@
        
       </v-card>
     </v-dialog>
-    <!-- <Alert /> -->
    
   </v-row>
 </template>
 <script>
-import Alert from "~/components/Alert.vue";
 export default {
-  components: {
-    Alert
-  },
   data() {
     return {
       form: {

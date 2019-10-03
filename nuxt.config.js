@@ -78,7 +78,7 @@ export default {
         light: {
         
           primary: '#33691E',
-          secondary: '#A1887F',
+          secondary: colors.brown.base,
           accent: '#2196f3',
           error: '#f44336',
           warning: '#ffeb3b',
