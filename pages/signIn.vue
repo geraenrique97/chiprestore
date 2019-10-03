@@ -25,7 +25,8 @@
         <v-btn style="
         background-color: darkslategrey;
         color: white;
-        width: 100%;" 
+        width: 100%;"
+        :loading="loading" 
         v-on:click="login()"
        >Ingresar</v-btn>
       </div>
@@ -34,6 +35,7 @@
         <p style="font-size: 13px; margin: 0px; align-self: center;"> Usuario y/o contraseña incorrecto/s </p>
       </div>
     </div>
+    <Alert />
 
   </div>
 </template>
@@ -41,15 +43,20 @@
 <script>
 import axios from 'axios'
 import firebase from 'firebase'
+import Alert from "~/components/Alert.vue";
 export default {
   name: 'login',
   layout: 'loginLayout',
+  components: {
+    Alert
+  },
   data () {
     return {
       invalid: false,
       visible: false,
       user: null,
-      password: null
+      password: null,
+      loading: false
 
     }
   },
@@ -79,7 +86,9 @@ export default {
   methods:{
     login() {
       if (this.validForm) {
+        this.loading = true;
         this.$store.dispatch('app/signIn', {user: this.user, password: this.password})
+          .then( () => this.loading = false)
       }
       
       

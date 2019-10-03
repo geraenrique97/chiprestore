@@ -227,10 +227,11 @@ export const actions = {
 
   signIn({commit}, payload) {
     commit('setLoading', true);
-    firebase.auth().signInWithEmailAndPassword(payload.user, payload.password)
+    return firebase.auth().signInWithEmailAndPassword(payload.user, payload.password)
       .then( user => {
         commit('setUser', user.user.uid);
         commit('setLoading', false);
+        return true
       })
       .catch(error =>{
         const alert = {
@@ -238,8 +239,9 @@ export const actions = {
           type: 'error',
           msg: error.message
         };
-        store.commit('setLoading', false);
-        store.commit('setAlert', alert);
+        commit('setLoading', false);
+        commit('setAlert', alert);
+        return false
       });
   },
   logout({commit}) {
@@ -254,8 +256,8 @@ export const actions = {
           type: 'error',
           msg: error.message
         };
-        store.commit('setLoading', false);
-        store.commit('setAlert', alert);
+        commit('setLoading', false);
+        commit('setAlert', alert);
         return Promise.reject(false)
       })
   },
