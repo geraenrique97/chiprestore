@@ -1,5 +1,6 @@
 // import axios from "axios";
 import firebase from "../plugins/firebase";
+import Vue from "vue";
 
 export const state = () => ({
   allClothes: PRENDAS,
@@ -76,7 +77,7 @@ export const mutations = {
   },
   setLoading(state, payload) {
     state.loading = payload
-  }
+  },
 };
 
 export const getters = {
@@ -223,6 +224,7 @@ export const actions = {
       })
 
   },
+
   signIn({commit}, payload) {
     commit('setLoading', true);
     firebase.auth().signInWithEmailAndPassword(payload.user, payload.password)
@@ -259,7 +261,7 @@ export const actions = {
   },
   signUp({commit}, payload){
     return true
-  }
+  },
 
 }
 

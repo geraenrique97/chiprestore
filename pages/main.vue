@@ -13,7 +13,7 @@
     <v-content>
       <nuxt-child />
     </v-content>
-    <v-app-bar app :color="viewportSize?'primary':'white'" class="topbar">
+    <v-app-bar app :color="smallDevice?'primary':'white'" class="topbar">
       <v-row>
         <v-col class="d-flex justify-content-between">
           <div class="d-flex">
@@ -50,64 +50,34 @@ export default {
     sidebar,
     SearchSidebar,
   },
+
   fetch({store}) {
     store.dispatch('app/getClothes');
   },
+
   data(){
     return {
       toggleSearch: false, 
     }
   },
 
-  created: function () {
-    // this.$router.push({path: '/main/adminProduct'});
-    this.$store.commit('app/setDevice', this.viewportSize);
-  },
   methods:{
     showMenu(){
       this.$store.commit('app/toggleMenu');
-    },
-    openSearch(){
-      console.log('tendria que emitir');
-      this.$emit('toggleSearch');
-    },
+    }
   },
+
   transitions:'fade-in',
+
   computed: {
-    viewportSize() {
-      switch (this.$vuetify.breakpoint.name) {
-      case 'xs':
-        return true;
-      case 'sm':
-        return true;
-      default:
-        return false;
-      }
-    },
-    isAuthenticated() {
-      return this.$store.state.app.user !== null
-    },
     loading() {
       return this.$store.state.app.loading
-    }
-  },
-  watch:{
-    viewportSize(val) {
-      this.$store.commit('app/setDevice', val);
     },
-    isAuthenticated(val) {
-      // if (!this.isAuthenticated) {
-      //   this.$router.push({path: '/signIn'})
-      // }
+    smallDevice() {
+      return this.$store.state.app.smallDevice
     }
   },
-  created() {
-  //Should be a user controller middleware before that it render
-    // if (!this.isAuthenticated) {
-    //     this.$router.push({path: '/signIn'})
-    //   }
 
-  }
 }
 </script>
 <style>
