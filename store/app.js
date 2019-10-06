@@ -62,7 +62,7 @@ export const mutations = {
     state.showProductRegister = !state.showProductRegister
   },
   addNewClothe(state, payload)  {
-    state.allClothes = { ... state.allClothes, payload}
+    state.allClothes = { ... state.allClothes, payload }
   },
   setAlert(state, payload) {
     state.alert = {...payload}
@@ -105,16 +105,28 @@ export const getters = {
 
 export const actions = {
 
-  getClothes({commit}) {
+  getClothes({commit, state}) {
     commit('setLoading', true);
     firebase.database().ref('products').once('value')
     .then( resp => {
-      console.log(resp.val());
-      for (const key in resp) {
-        console.log(resp.key);
-      // store.commit('addNewClothe', Object.values(resp.data));
+      let clothe
+      for (const key in resp.val()) {
+        console.log(resp.val()[key]);
+        clothe = {...resp.val()[key], code: key};
+        console.log(clothe);
+          // brand: "abercombrie & fitch",
+          // buyPrice: "400",
+          // category: "remera",
+          // clothe: "remera",
+          // color: "azul",
+          // description: "Estampado rojo. Algodón 100%. Temporada 2019",
+          // imgURLs: [],
+          // sellPrice: "600",
+          // stock: [],
+        commit('addNewClothe', clothe);
       }
       commit('setLoading', false);
+      console.log(state.allClothes);
 
     });
   },
