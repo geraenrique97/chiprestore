@@ -38,9 +38,9 @@
   </v-container>
 </template>
 <script>
-import FloatButton from '@/components/FloatButton.vue'
-import ProductModal from "~/components/ProductModal.vue"
-import ProductSheet from "~/components/ProductSheet.vue";
+import FloatButton from '~/components/FloatButton.vue'
+import ProductModal from "~/components/ProductViewModal/ProductModal"
+import ProductSheet from "~/components/ProductSheet"
 import Alert from "~/components/Alert.vue";
 
 export default {

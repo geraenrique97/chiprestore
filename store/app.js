@@ -1,6 +1,5 @@
 // import axios from "axios";
 import firebase from "../plugins/firebase";
-import Vue from "vue";
 
 export const state = () => ({
   allClothes: PRENDAS,
@@ -12,6 +11,7 @@ export const state = () => ({
   smallDevice: null,
   showMenu: true,
   showProductRegister: false,
+  showStockBottomSheet: false,
   alert: {
     visible: false,
     type: null,
@@ -38,8 +38,9 @@ export const mutations = {
     state.openedModal = !state.openedModal
   },
   //Set the state with a selected product
-  selectProduct(state, product) {
-    state.selected = product
+  selectProduct(state, payload) {
+    state.selected = {...payload};
+    state.selected.stock = [...payload.stock];
   },
   //Set the prop according to viewport size, if xs or sm then true
   setDevice(state, isSmall) {
@@ -78,6 +79,14 @@ export const mutations = {
   setLoading(state, payload) {
     state.loading = payload
   },
+  // Open or close bottom sheet component to update selected product stock
+  toggleStockBottomSheet(state, payload) {
+    state.showStockBottomSheet = payload
+  },
+  // Change stock of selected product, only in selectedProduct prop
+  updateSelectedStock(state, payload) {
+    state.selected.stock = [...payload];
+  }
 };
 
 export const getters = {
@@ -100,9 +109,11 @@ export const actions = {
     commit('setLoading', true);
     firebase.database().ref('products').once('value')
     .then( resp => {
-      // store.commit('addClothes',Object.values(resp.data));
-      // store.commit('addClothes', Object.values(PRENDAS))
-      console.log('getClothes');
+      console.log(resp.val());
+      for (const key in resp) {
+        console.log(resp.key);
+      // store.commit('addNewClothe', Object.values(resp.data));
+      }
       commit('setLoading', false);
 
     });
@@ -154,7 +165,6 @@ export const actions = {
       }
     }
     store.commit('setSearchResult', result);
-    console.log(result);
     // return store.state.searchResult
     
   
