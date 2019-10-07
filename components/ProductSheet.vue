@@ -210,13 +210,18 @@ export default {
       return true;
     },
     chooseImg(event) {
-      const img = event.target.files[0]
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        this.form.imgURLs.push(reader.result);
+      if (event.target.files[0]) {
+        const img = event.target.files[0]
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.form.imgURLs.push(reader.result);
+        }
+        reader.readAsDataURL(img);
+        this.form.imgFiles.push(img);
+        console.log(this.form.imgFiles);
+
       }
-      reader.readAsDataURL(img);
-      this.form.imgFiles.push(img);
+      
     },
     uploadImg() {
     },
@@ -228,8 +233,8 @@ export default {
       this.$store.dispatch('app/createProduct',{ ...this.form })
         .then(res => {
           console.log('successfull');
-          this.clearForm();
           this.openSheet = false;
+          this.clearForm();
         })
         .catch( err => {
           console.log('reject in productSheet');
@@ -245,8 +250,13 @@ export default {
         color: null,
         buyPrice: null,
         sellPrice: null,
-        stock:[],
-        imgURLs:[]
+        stock: [],
+        imgURLs: [],
+        imgFiles: []
+      },
+      this.newStock = {
+        size: null,
+        quantity: null
       }
     },
     validForm() {

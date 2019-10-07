@@ -9,12 +9,12 @@
       </div>
 
       <div class="card-columns">
-          <v-card class="card mt-2" v-for="product in clothes" :key="product.code">
+          <v-card class="card mt-2" v-for="(product) in clothes" :key="product.code">
               <v-img 
               v-if="product.imgURLs.length != 0"
               :src="product.imgURLs[0].includes('https')? product.imgURLs[0]:require(`~/assets/img/${product.imgURLs[0]}`)" 
               ></v-img>
-              <v-card-text>{{product.clothe +' '+ product.brand +' $' + product.sellPrice}}</v-card-text>
+              <v-card-text>{{' '+product.clothe +' '+ product.brand +' $' + product.sellPrice}}</v-card-text>
               <v-card-actions>
                   <v-btn 
                   block

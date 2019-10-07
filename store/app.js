@@ -62,7 +62,7 @@ export const mutations = {
     state.showProductRegister = !state.showProductRegister
   },
   addNewClothe(state, payload)  {
-    state.allClothes = { ... state.allClothes, payload }
+    state.allClothes[payload.code] = {...payload};
   },
   setAlert(state, payload) {
     state.alert = {...payload}
@@ -109,27 +109,13 @@ export const actions = {
     commit('setLoading', true);
     firebase.database().ref('products').once('value')
     .then( resp => {
-      let clothe
       for (const key in resp.val()) {
-        console.log(resp.val()[key]);
-        clothe = {...resp.val()[key], code: key};
-        console.log(clothe);
-          // brand: "abercombrie & fitch",
-          // buyPrice: "400",
-          // category: "remera",
-          // clothe: "remera",
-          // color: "azul",
-          // description: "Estampado rojo. Algodón 100%. Temporada 2019",
-          // imgURLs: [],
-          // sellPrice: "600",
-          // stock: [],
-        commit('addNewClothe', clothe);
+        commit('addNewClothe', { ...resp.val()[key], code: key } );
       }
       commit('setLoading', false);
-      console.log(state.allClothes);
-
     });
   },
+  
   searchClothes(store, params) {
     store.commit('setSearchParams', params);
     store.dispatch('filterClothes');
@@ -182,12 +168,19 @@ export const actions = {
   
   },
 
-  updateProduct(store, payload) {
-    // axios.post('url', payload)
-    //   .then(
-    //     // Should return all clothes and update the state
-    //   );
-    store.commit('updateProduct', payload)    
+  updateProduct({commit}, payload) {
+    firebase.database().ref('products').child(payload.code)
+      .update(payload, function() {
+        console.log('in complete');
+        const alert = {
+          visible: true,
+          type: 'info',
+          msg: 'Producto actualizado'
+        };
+        commit('setAlert', alert);
+        commit('updateProduct', {...payload});
+      })
+        
   },
 
   createProduct(store, payload) {
@@ -291,96 +284,7 @@ export const actions = {
 
 
 export const PRENDAS = {
-  prenda1: {
-    clothe: 'remera',
-    brand: 'abercombrie & fitch ',
-    color: 'azul',
 
-    code: '1',
-    imgURLs: ['img1.png'],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'L', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-    prenda2: {
-    clothe: 'camisa',
-    brand: 'polo',
-    color: 'salmon',
-
-    code: '2',
-    imgURLs: [`img2.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda3: {
-    clothe: 'remera',
-    brand: 'tommy hilfiger',
-    color: 'blanca',
-
-    code: '3',
-    imgURLs: [`img3.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda4: {
-    clothe: 'sueter',
-    brand: 'abercombrie & fitch',
-    color: 'naranja',
-
-    code: '4',
-    imgURLs: [`img4.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda5  : {
-    clothe: 'remera',
-    brand: 'abercombrie & fitch',
-    color: 'roja',
-
-    code: '5',
-    imgURLs: [`img5.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda6  : {
-    clothe: 'buzo femenino',
-    brand: 'adidas',
-    color: 'amarillo',
-
-    code: '6',
-    imgURLs: [`img6.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
   prenda7  : {
     clothe: 'sueter',
     brand: 'abercombrie & fitch',
