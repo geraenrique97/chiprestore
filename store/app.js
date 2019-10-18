@@ -113,6 +113,15 @@ export const actions = {
         commit('addNewClothe', { ...resp.val()[key], code: key } );
       }
       commit('setLoading', false);
+    })
+    .catch(err => {
+      const alert = {
+        visible: true,
+        type: 'error',
+        msg: err
+      };
+      commit('setAlert', alert)
+      console.log(err);
     });
   },
   
@@ -210,20 +219,26 @@ export const actions = {
       })      
 
       .then(url => {
-        console.log('in promisse: ',url);
+        // console.log('in promisse: ',url);
+        const alert = {
+          visible: true,
+          type: 'info',
+          msg: 'in promisse'+url
+        };
+        store.commit('setAlert', alert);
         product.imgURLs[0] = url;
         return firebase.database().ref('products').child(key).update({imgURLs: product.imgURLs})
       })
         
       .then( res => {
         store.commit('addNewClothe', product);
-        const alert = {
-          visible: true,
-          type: 'info',
-          msg: 'Guardado con éxito. Código: '+ key
-        };
+        // const alert = {
+        //   visible: true,
+        //   type: 'info',
+        //   msg: 'Guardado con éxito. Código: '+ key
+        // };
         store.commit('setLoading', false);
-        store.commit('setAlert', alert);
+        // store.commit('setAlert', alert);
       })
 
       .catch( err => {

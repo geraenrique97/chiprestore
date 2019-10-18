@@ -218,8 +218,6 @@ export default {
         }
         reader.readAsDataURL(img);
         this.form.imgFiles.push(img);
-        console.log(this.form.imgFiles);
-
       }
       
     },
