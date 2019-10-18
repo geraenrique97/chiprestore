@@ -22,6 +22,7 @@
         <div class="d-block d-md-flex align-center p-1">
           <v-row :style="{width:smallViewport? '':'100%'}">
             <v-carousel 
+            v-if="form.imgURLs.length != 0"
             delimiter-icon="remove">
               <v-carousel-item
                 v-for="(item,i) in form.imgURLs"
@@ -37,19 +38,19 @@
                           @click="removeImg(i)"> clear</v-icon>
                 </div>
               </v-carousel-item>
-              <v-carousel-item  
-                reverse-transition="fade-transition"
-                transition="fade-transition">
-                <div class="d-flex justify-content-center" style="height: 100%;">
+
+
+              
+            </v-carousel>
+            <div 
+            v-if="form.imgURLs.length == 0"
+            class="d-flex justify-content-center" 
+            style="width: 100%;">
                   <img 
                   @click="$refs['fileInput'].click()"
                   style="align-self: center"
                   :src="require('~/assets/img/add-icon.png')" alt="">
                 </div>
-              </v-carousel-item>
-
-              
-            </v-carousel>
             <!-- <button class="buttonAddImg" @click="$refs['fileInput'].click()">
                 <v-icon>add</v-icon>  
             </button> -->

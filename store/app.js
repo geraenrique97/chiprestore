@@ -2,7 +2,7 @@
 import firebase from "../plugins/firebase";
 
 export const state = () => ({
-  allClothes: PRENDAS,
+  allClothes: {},
   user: null,
   selected: null,
   searchResult: null,
@@ -199,7 +199,7 @@ export const actions = {
     let product = {...payload};
     
     delete product.imgFiles;
-    delete product.imgURLs;
+    product.imgURLs = [];
     let files = [...payload.imgFiles];
     let key;
     return firebase.database().ref('products').push(product)
@@ -220,7 +220,7 @@ export const actions = {
       })      
 
       .then(url => {
-        product.imgURLs[0] = url;
+        product.imgURLs.push(url);
         return firebase.database().ref('products').child(key).update({imgURLs: product.imgURLs})
       })
         
