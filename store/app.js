@@ -86,6 +86,9 @@ export const mutations = {
   // Change stock of selected product, only in selectedProduct prop
   updateSelectedStock(state, payload) {
     state.selected.stock = [...payload];
+  },
+  clearClothes(state) {
+    state.allClothes = {};
   }
 };
 
@@ -106,6 +109,7 @@ export const getters = {
 export const actions = {
 
   getClothes({commit, state}) {
+    commit('clearClothes');
     commit('setLoading', true);
     firebase.database().ref('products').once('value')
     .then( resp => {
@@ -180,7 +184,6 @@ export const actions = {
   updateProduct({commit}, payload) {
     firebase.database().ref('products').child(payload.code)
       .update(payload, function() {
-        console.log('in complete');
         const alert = {
           visible: true,
           type: 'info',
@@ -249,6 +252,31 @@ export const actions = {
 
   },
 
+  deleteProduct({commit, dispatch}, payload) {
+    
+    return firebase.database().ref('products').child(payload).remove()
+      .then( () => {
+        const alert = {
+          visible: true,
+          type: 'success',
+          msg: 'Eliminado con exito'
+        };
+        commit('setAlert', alert);
+        dispatch('getClothes');
+        
+        return Promise.resolve()
+      })
+      .catch( () => {
+        const alert = {
+          visible: true,
+          type: 'error',
+          msg: 'Problema al eliminar'
+        };
+        commit('setAlert', alert);
+        return Promise.reject()
+      });
+  },
+
   signIn({commit}, payload) {
     commit('setLoading', true);
     return firebase.auth().signInWithEmailAndPassword(payload.user, payload.password)
@@ -290,210 +318,5 @@ export const actions = {
   },
 
 }
-
-
-export const PRENDAS = {
-
-  prenda7  : {
-    clothe: 'sueter',
-    brand: 'abercombrie & fitch',
-    color: 'celeste',
-
-    code: '7',
-    imgURLs: [`img7.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda8  : {
-    clothe: 'remera bordado rojo',
-    brand: 'abercombrie & fitch',
-    color: 'gris',
-
-    code: '8',
-    imgURLs: [`img8.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda9  : {
-    clothe: 'remera a rayas',
-    brand: 'lacoste',
-    color: 'gris blanco rojo negro',
-
-    code: '9',
-    imgURLs: [`img9.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda10  : {
-    clothe: 'remera bordada',
-    brand: 'abercombrie & fitch',
-    color: 'rosa',
-
-    code: '10',
-    imgURLs: [`img10.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda11  : {
-    clothe: 'remera',
-    brand: 'tommy hilgifer',
-    color: 'roja',
-
-    code: '11',
-    imgURLs: [`img11.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda12  : {
-    clothe: 'short verano',
-    brand: 'polo',
-    color: 'rosado',
-
-    code: '12',
-    imgURLs: [`img12.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda13  : {
-    clothe: 'remera',
-    brand: 'polo',
-    color: 'azul',
-
-    code: '13',
-    imgURLs: [`img13.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda14  : {
-    clothe: 'camisa pintadas',
-    brand: 'tommy hilfiger',
-    color: 'blanca',
-
-    code: '14',
-    imgURLs: [`img14.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda15  : {
-    clothe: 'camisa jeans',
-    brand: 'polo',
-    color: 'azul',
-
-    code: '15',
-    imgURLs: [`img15.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 'm', quantity: 2},
-    ]
-  },
-  prenda16  : {
-    clothe: 'short verano',
-    brand: 'lacoste',
-    color: 'negro',
-
-    code: '16',
-    imgURLs: [`img16.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 'm', quantity: 2},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda17  : {
-    clothe: 'remera lisa',
-    brand: 'polo',
-    color: 'negro',
-
-    code: '17',
-    imgURLs: [`img17.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda18  : {
-    clothe: 'short bermuda',
-    brand: 'penguin',
-    color: 'marron',
-
-    code: '18',
-    imgURLs: [`img18.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 'xxl', quantity: 1}
-    ]
-  },
-  prenda19  : {
-    clothe: 'remera estampa indio',
-    brand: 'abercombrie & fitch',
-    color: 'gris',
-
-    code: '19',
-    imgURLs: [`img19.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 'm', quantity: 2},
-    ]
-  },
-  prenda20  : {
-    clothe: 'remera estampada',
-    brand: 'abercombrie & fitch',
-    color: 'azul',
-
-    code: '20',
-    imgURLs: [`img20.png`],
-    buyPrice: 300.00,
-    sellPrice: 500.00,
-    stock: [
-      {size: 's', quantity: 3},
-      {size: 'm', quantity: 2},
-    ]
-  },
-};
 
 

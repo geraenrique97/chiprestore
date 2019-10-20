@@ -71,26 +71,47 @@
                     </v-row>
                   </div>
                   <div>
+                    <!-- <v-row>
+                      <v-col align-self="right">
+                        
+                      </v-col>
+                    </v-row> -->
                     <v-row>
-                      <v-col >
+                      
+                      <v-col class="d-flex justify-center">
+                        
                         <v-btn 
                           @click="showStock"
                           color="green"
                           text
-                          block
+                          
                           style="color: white"
                           >Ver stock</v-btn>
                       </v-col>
                     </v-row>
+                    <v-row>
+                       <v-col class="d-flex justify-center">
+                        <v-btn
+                          color="red"
+                          text
+                          outlined
+                          @click="deleteProduct">
+                          Elimiar
+                          <v-icon>delete</v-icon>
+                        </v-btn>
+                      </v-col>
+                    </v-row>
                     <v-row justify="center">
-                      <v-col cols="6">
+                      
+                      <v-col cols="5">
                         <v-btn 
                         outlined 
                         block
                         color="primary" 
                         @click="closeModal">Cancelar</v-btn>
                       </v-col>
-                      <v-col cols="6">
+                     
+                      <v-col cols="5">
                         <v-btn 
                         block
                         color="primary"
@@ -185,6 +206,14 @@ export default {
     },
     showStock() {
       this.$store.commit('app/toggleStockBottomSheet', true);
+    },
+    deleteProduct() {
+      this.$store.dispatch('app/deleteProduct', this.form.code)
+        .then(() => {
+          this.closeModal();
+          console.log('success removed');
+        })
+        .catch(()=> console.log('Could not remove it'));
     }
 
   }
