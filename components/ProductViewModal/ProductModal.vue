@@ -209,11 +209,7 @@ export default {
     },
     deleteProduct() {
       this.$store.dispatch('app/deleteProduct', this.form.code)
-        .then(() => {
-          this.closeModal();
-          console.log('success removed');
-        })
-        .catch(()=> console.log('Could not remove it'));
+        .then(() => this.closeModal());
     }
 
   }
