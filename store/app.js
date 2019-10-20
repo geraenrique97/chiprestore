@@ -51,12 +51,7 @@ export const mutations = {
   },
   // Update details of selected product
   updateProduct(state, payload) {
-    for (const key in state.allClothes) {
-      if (payload.code == state.allClothes[key].code) {
-        state.allClothes[key] = payload;
-        break
-      }
-    };
+    state.allClothes[payload.code] = {...payload};
   },
   toggleProductRegisterSheet(state) {
     state.showProductRegister = !state.showProductRegister
@@ -186,7 +181,7 @@ export const actions = {
       .update(payload, function() {
         const alert = {
           visible: true,
-          type: 'info',
+          type: 'success',
           msg: 'Producto actualizado'
         };
         commit('setAlert', alert);
