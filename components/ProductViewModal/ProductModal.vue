@@ -70,40 +70,32 @@
                       </v-col>
                     </v-row>
                   </div>
+
                   <div>
-                    <!-- <v-row>
-                      <v-col align-self="right">
-                        
-                      </v-col>
-                    </v-row> -->
                     <v-row>
-                      
-                      <v-col class="d-flex justify-center">
-                        
+
+                      <v-col cols="12"  class="d-flex justify-center p-0">
                         <v-btn 
                           @click="showStock"
                           color="green"
                           text
-                          
                           style="color: white"
                           >Ver stock</v-btn>
                       </v-col>
-                    </v-row>
-                    <v-row>
-                       <v-col class="d-flex justify-center">
+                      <v-col cols="12"  class="d-flex justify-center p-0">
                         <v-btn
                           color="red"
                           text
-                          outlined
                           @click="deleteProduct">
-                          Elimiar
+                          Eliminar
                           <v-icon>delete</v-icon>
                         </v-btn>
                       </v-col>
-                    </v-row>
-                    <v-row justify="center">
                       
-                      <v-col cols="5">
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-col cols="6">
                         <v-btn 
                         outlined 
                         block
@@ -111,7 +103,7 @@
                         @click="closeModal">Cancelar</v-btn>
                       </v-col>
                      
-                      <v-col cols="5">
+                      <v-col cols="6">
                         <v-btn 
                         block
                         color="primary"
