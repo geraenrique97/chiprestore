@@ -3,7 +3,7 @@
   v-model="value"
   bottom
   :color="type"
-  :timeout="type == 'error'? 2000: 0">
+  :timeout="type == 'info'? 0: 2000">
     {{msg}}
     <v-btn 
       v-if="type == 'info'" 
